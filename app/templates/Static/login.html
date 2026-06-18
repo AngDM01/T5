@@ -1,0 +1,31 @@
+<div class="form-div">
+  <form id="loginForm" onsubmit="sendLogin(event)">
+    <section>
+      <h2>Iniciar sesión</h2>
+      
+      <fieldset>
+        <div>
+          <label for="email">Correo electrónico</label>
+          <input type="email" id="email" name="email" placeholder="example@example.com"
+              required 
+              maxlength="255" 
+              autofocus>
+        </div>
+
+        <div>
+          <label for="password">Contraseña</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+      </fieldset>
+    </section>
+
+    <div style="width: 100%;">
+      <a href="#" onclick="goToRegister()" class="menu-item">Ir a registrarse</a>
+    </div>
+
+    <fieldset class="bttn-grp">
+      <button class="custom-bttn" type="submit">Ingresar</button>
+      <button class="custom-bttn" type="button" onclick="goToMain()">Cancelar</button>
+    </fieldset>
+  </form>
+</div>

@@ -1,0 +1,25 @@
+# Archivos compilados
+build/
+*.o
+*.out
+*.exe
+
+# VS Code
+.vscode/
+
+# CMake
+Makefile
+
+# Logs
+*.log
+
+# Docker
+*.pid
+
+# otros
+bin/
+*.pdf
+*.cgi
+*.png
+*.jpg
+*.jpeg
