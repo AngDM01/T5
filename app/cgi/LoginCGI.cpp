@@ -29,14 +29,14 @@ void loadHomePage() {
 
   cout << "Content-Type: application/json\n\n";
   cout << "{";
-  cout << "\"success\": " << "false" << ",";
-  cout << "\"message\": \"" << "body" << "\"";
+  cout << "\"success\": " << "True" << ",";
+  cout << "\"message\": \"" << "Inicio de sesión correcto. Redirigiendo..." << ",";
+  cout << "\"data\": \"" << 1 << "\"";
   cout << "}";
 }
 
 int main() {
   char* contentLength = getenv("CONTENT_LENGTH");
-
   
   if (!contentLength) {
     loadLoginPage();
