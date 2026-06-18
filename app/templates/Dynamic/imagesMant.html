@@ -1,0 +1,87 @@
+ <fieldset class="bttn-grp">
+    <button class="custom-bttn" onclick="goToHome()">Regresar</button>
+  </fieldset>
+
+  <div class="flex-row flex-wrap g-d" style="align-items: start;">
+    <div class="form-div" style="max-width: fit-content;">
+      <form id="imageForm" class="form1" onsubmit="uploadImage(event)">
+        <section>
+          <div style="width: 100%;">
+            <h2>Subir una imagen</h2>
+          </div>
+          
+          <fieldset>
+            <div>
+              <label for="alias">Alias</label>
+              <input type="text" id="alias" name="alias"            
+                required 
+                maxlength="255">
+            </div>
+
+            <div id="imagesFile">
+              <label>Archivo</label>
+              <input id="imageFile" type="file" accept=".png,.jpg,.jpeg" hidden>
+              <label for="imageFile" class="custom-bttn2">+</label>
+
+              <span id="fileName">Ningún archivo seleccionado</span>
+            </div>
+          </fieldset>
+        </section>
+
+        <div class="bttn-grp">
+          <button class="custom-bttn" type="submit">Subir</button>
+          <button class="custom-bttn" type="button" onclick="clearForm('imageForm')">Limpiar</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="flex-col g-d2 flex-1" style="align-items: center;">
+      <div class="flex-row jutf-cont-spcbet g-d">
+        <h2 style="margin: 0 !important;">Mis imagenes</h2>
+        <p>{{ImagesCount}} imagenes de máximo {{MaxImagesCount}}</p>
+      </div>
+
+      <div class="carr-container">
+        <div class="flex-row jutf-cont-spcbet" style="gap: 10px;">
+          <button class="arrow-btn" onclick="moveGallery('carrImgld', -1)">◀</button>
+          <div id="carrImgld" class="carrousel2">
+            <div class="imageCard2">
+              <div>
+                {{Alias}}
+                <label class="custom-bttn2">X</label>
+              </div>
+              <img src="/media/tarjeta2.png" alt="letter" class="img-cust">
+            </div>
+            <div class="imageCard2">
+              <div>
+                {{Alias}}
+                <label class="custom-bttn2">X</label>
+              </div>
+              <img src="/media/tarjeta2.png" alt="letter" class="img-cust">
+            </div>
+            <div class="imageCard2">
+              <div>
+                {{Alias}}
+                <label class="custom-bttn2">X</label>
+              </div>
+              <img src="/media/tarjeta2.png" alt="letter" class="img-cust">
+            </div>
+          </div>
+          <button class="arrow-btn" onclick="moveGallery('carrImgld', 1)">▶</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const input = document.getElementById("imageFile");
+    const fileName = document.getElementById("fileName");
+
+    input.addEventListener("change", () => {
+      if (input.files.length > 0) {
+        fileName.textContent = input.files[0].name;
+      } else {
+        fileName.textContent = "Ningún archivo seleccionado";
+      }
+    });
+  </script>

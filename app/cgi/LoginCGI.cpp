@@ -27,11 +27,11 @@ void loadHomePage() {
   string body(contentLength, '\0');
   cin.read(&body[0], contentLength);
 
-  cout << "Content-Type: application/json\n\n";
+  cout << "Content-Type: application/json\r\n\r\n";
   cout << "{";
-  cout << "\"success\": " << "True" << ",";
-  cout << "\"message\": \"" << "Inicio de sesión correcto. Redirigiendo..." << ",";
-  cout << "\"data\": \"" << 1 << "\"";
+  cout << "\"success\": true,";
+  cout << "\"message\": \"Inicio de sesión correcto. Redirigiendo...\",";
+  cout << "\"data\": 1";
   cout << "}";
 }
 

@@ -1,0 +1,42 @@
+  <div>
+    <fieldset class="bttn-grp">
+      <button class="custom-bttn" onclick="goToHome()">Regresar</button>
+    </fieldset>
+
+    <div class="flex-1 jutf-cont-cent">
+      <form id="letterForm" onsubmit="sendLetter(event)">
+        <div class="ltr-container">
+          <div class="lttr-img">
+            <fieldset class="fldset-form fldset-style">
+              <div class="input-comb">
+                <div class="ipt-comb-div">
+                  <label for="from">De:</label>
+                  <label class="input" id="from" name="from">{{SenderName}}</label>
+                </div>
+
+                <div class="ipt-comb-div">
+                  <label for="to">Para:</label>
+                  <label class="input" id="to" name="to">{{ReceiverName}}</label>
+                </div>
+              </div>
+
+              <div class="nor-form-div">
+                <label for="destEmail">Correo Destinatario:</label>
+                <label class="input" id="destEmail" name="destEmail">{{ReceiverEmail}}</label>
+              </div>
+
+              <div class="nor-form-div">
+                <label for="letterTitle">Título:</label>
+                <label class="input" id="letterTitle" name="letterTitle">{{LetterTitle}}</label>
+              </div>
+
+              <div class="nor-form-div">
+                <label for="letterText">Dedicatoria:</label>
+                <label class="input" id="letterTitle" name="letterTitle">{{LetterTitle}}</label>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>

@@ -70,6 +70,18 @@ function sendRegister(event) {
   });
 }
 
+function goToHome() {
+  window.location.href = "/cgi/HomeCGI.cgi"
+}
+
+function goToCreateLetter() {
+  window.location.href = "/cgi/CreateLetterCGI.cgi"
+}
+
+function goToImageMaint() {
+  window.location.href = "/cgi/ImagesMaintenance.cgi"
+}
+
 let notifyTimer = null;
 
 function createNotify(type, message, timer = 5000) {
@@ -103,5 +115,14 @@ function closeNotify() {
   if (notifyTimer) {
     clearTimeout(notifyTimer);
     notifyTimer = null;
+  }
+}
+
+function clearForm(form) {
+  document.getElementById(form).reset();
+
+  const fileName = document.getElementById("fileName");
+  if (fileName) {
+    fileName.textContent = "Ningún archivo seleccionado";
   }
 }

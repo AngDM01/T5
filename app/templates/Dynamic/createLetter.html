@@ -1,0 +1,106 @@
+  <div style="width: 100%; height: fit-content;">
+    <fieldset class="bttn-grp">
+      <button class="custom-bttn" onclick="goToHome()">Regresar</button>
+    </fieldset>
+
+    <div class="flex-row g-d flex-wrap" style="align-items: flex-start;">
+      <div class="flex-col g-d2">
+        <div class="carr-container">
+          <h2>Catálogo de imagenes</h2>
+
+          <div class="flex-row jutf-cont-spcbet" style="gap: 10px;">
+            <button class="arrow-btn" onclick="moveGallery('carrCat', -1)">◀</button>
+            <div id="carrCat" class="carrousel">
+              <div class="imageCard">
+                <img src="/media/tarjeta2.png" alt="letter">
+              </div>
+              <div class="imageCard">
+                <img src="/media/tarjeta2.png" alt="letter">
+              </div>
+              <div class="imageCard">
+                <img src="/media/tarjeta2.png" alt="letter">
+              </div>
+            </div>
+            <button class="arrow-btn" onclick="moveGallery('carrCat', 1)">▶</button>
+          </div>
+        </div>
+        
+        <div class="carr-container">
+          <h2>Catálogo de imagenes</h2>
+
+          <div class="flex-row jutf-cont-spcbet" style="gap: 10px;">
+            <button class="arrow-btn" onclick="moveGallery('carrCat', -1)">◀</button>
+            <div id="carrCat" class="carrousel">
+              <div class="imageCard">
+                <img src="/media/tarjeta2.png" alt="letter">
+              </div>
+              <div class="imageCard">
+                <img src="/media/tarjeta2.png" alt="letter">
+              </div>
+              <div class="imageCard">
+                <img src="/media/tarjeta2.png" alt="letter">
+              </div>
+            </div>
+            <button class="arrow-btn" onclick="moveGallery('carrCat', 1)">▶</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex-1 jutf-cont-cent">
+        <form id="letterForm" onsubmit="sendLetter(event)">
+          <div class="ltr-container">
+            <div class="lttr-img">
+              <fieldset class="fldset-form fldset-style">
+                <div class="input-comb">
+                  <div class="ipt-comb-div">
+                    <label for="from">De:</label>
+                    <input type="text" id="from" name="from" 
+                        required 
+                        maxlength="100">
+                  </div>
+
+                  <div class="ipt-comb-div">
+                    <label for="to">Para:</label>
+                    <input type="text" id="to" name="to" 
+                        required 
+                        maxlength="100">
+                  </div>
+                </div>
+
+                <div class="nor-form-div">
+                  <label for="destEmail">Correo Destinatario:</label>
+                  <input type="email" id="destEmail" name="destEmail" 
+                      required 
+                      maxlength="100">
+                </div>
+
+                <div class="nor-form-div">
+                  <label for="letterTitle">Título:</label>
+                  <input type="text" id="letterTitle" name="letterTitle" 
+                      required 
+                      maxlength="100">
+                </div>
+
+                <div class="nor-form-div">
+                  <label for="letterText">Dedicatoria:</label>
+                  <textarea style="min-width: 100%; max-width:max-content;"
+                      id="letterText"
+                      name="letterText"
+                      value="" 
+                      rows="5" 
+                      placeholder="Escribe tu mensaje aquí..."
+                      maxlength="2000"
+                  ></textarea>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+
+          <div class="bttn-grp">
+            <button class="custom-bttn" type="submit">Enviar</button>
+            <button class="custom-bttn" type="button" onclick="clearForm('letterForm')">Limpiar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,50 @@
+  <div class="form-div">
+      <section class="perfil">
+        <div style="width: 100%;">
+          <h2>Perfil</h2>
+        </div>
+
+        <fieldset>
+          <div>
+            <label for="name">Nombre completo</label>
+            <label class="input" id="name" name="name">{{UserName}}</label>
+          </div>
+
+          <div>
+            <label for="age">Edad</label>
+            <label class="input" id="age" name="age">{{UserAge}}</label>
+          </div>
+
+          <div>
+            <label for="email">Correo electrónico</label>
+            <label class="input" id="email" name="email">{{UserEmail}}</label>
+          </div>
+        </fieldset>
+      </section>
+  </div>
+
+  <div>
+    <div class="bttn-grp">
+      <button class="custom-bttn">Cartas enviadas</button>
+      <button class="custom-bttn">Cartas recibidas</button>
+      <button class="custom-bttn" onclick="goToCreateLetter()">Enviar una carta</button>
+      <button class="custom-bttn" onclick="goToImageMaint()">Subir una imagen</button>
+    </div>
+
+    <section class="letters-table">
+      <div class="flex-row jutf-cont-spcbet">
+        <h2>{{LettersTitle}}</h2>
+        <p>Visualizando {{DefaultCount}} de {{TotalLetters}}</p>
+      </div>
+
+      <div class="flex-col">
+        <span class="table-h">{{TableHeader}}</span>
+
+        {{TableRows}}
+      </div>
+
+      <div class="flex-row jutf-cont-cent">
+        {{Pager}}
+      </div>
+    </section>
+  </div>
