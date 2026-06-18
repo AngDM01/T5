@@ -7,10 +7,10 @@ CREATE TABLE Rol (
 
 CREATE TABLE User (
     Id_user INT AUTO_INCREMENT PRIMARY KEY,
-    Email VARCHAR(255) NOT NULL UNIQUE,
-    Password VARCHAR(255) NOT NULL,
     Name VARCHAR(100) NOT NULL,
     Age TINYINT NOT NULL CHECK(Age > 0),
+    Email VARCHAR(255) NOT NULL UNIQUE,
+    Password VARCHAR(255) NOT NULL,
     Id_assigned_rol INT NOT NULL,
 
     CONSTRAINT fk_user_role
@@ -31,9 +31,9 @@ CREATE TABLE OTP_admin (
 
 CREATE TABLE Image (
     Id_image INT AUTO_INCREMENT PRIMARY KEY,
-    Name VARCHAR(255) NOT NULL,
-    Type ENUM('png', 'jpg', 'jpeg') NOT NULL,
-    Data MEDIUMBLOB NOT NULL,
+    Alias VARCHAR(255) NOT NULL,
+    Extension ENUM('png', 'jpg', 'jpeg') NOT NULL,
+    Image_data MEDIUMBLOB NOT NULL,
     Is_catalog BOOLEAN NOT NULL DEFAULT FALSE,
     Upload_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     Id_uploader_user INT NOT NULL,
@@ -45,21 +45,27 @@ CREATE TABLE Image (
 
 CREATE TABLE Letter (
     Id_letter INT AUTO_INCREMENT PRIMARY KEY,
+    Letter_title VARCHAR(100) NOT NULL,
     Sender_name VARCHAR(100) NOT NULL,
     Sender_email VARCHAR(255) NOT NULL,
     Receiver_name VARCHAR(100) NOT NULL,
     Receiver_email VARCHAR(255) NOT NULL,
-    Text TEXT NOT NULL,
+    Text_letter TEXT NOT NULL,
     Send_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     Id_associate_image INT,
     Id_owner_user INT NOT NULL,
+    Id_receiver_user INT NOT NULL,
 
     CONSTRAINT fk_letter_image
         FOREIGN KEY (Id_associate_image)
         REFERENCES Image(Id_image),
 
-    CONSTRAINT fk_letter_user
+    CONSTRAINT fk_letter_sender_user
         FOREIGN KEY (Id_owner_user)
+        REFERENCES User(Id_user)
+
+    CONSTRAINT fk_letter_receiver_user
+        FOREIGN KEY (Id_receiver_user)
         REFERENCES User(Id_user)
 );
 
