@@ -2,46 +2,48 @@
 #include <cstdlib>
 #include <string>
 
-#include "Views/TemplateEngine.hpp"
-#include "Views/View.hpp"
-#include "Views/Static/StaticView.hpp"
+#include "TemplateEngine.hpp"
+#include "View.hpp"
+#include "StaticView.hpp"
+#include "HomePageView.hpp" 
+#include "EnvLoader.hpp"
+#include "UserModel.hpp"
+
+class DBConnection;
+class UserRepository;
+class UserService;
 
 using namespace std;
 
-void loadLoginPage() {
+void LoadLoginPage() {
   string loginRoute = "/usr/local/apache2/app/templates/Static/login.html";
 
-  TemplateEngine templateEngine = TemplateEngine();
+  TemplateEngine templateEngine;
 	StaticView view(templateEngine, loginRoute);
 
-	string renderedPage = view.render();
+	string renderedPage = view.Render();
   
 	cout << renderedPage;
 }
 
-void loadHomePage() {
-  const char* contentLengthStr = getenv("CONTENT_LENGTH");
+void LoadHomePage() {
+  string homeRoute = "/usr/local/apache2/app/templates/Static/home.html";
 
-  int contentLength = std::atoi(contentLengthStr);
+  TemplateEngine templateEngine;
+	StaticView view(templateEngine, homeRoute);
 
-  string body(contentLength, '\0');
-  cin.read(&body[0], contentLength);
-
-  cout << "Content-Type: application/json\r\n\r\n";
-  cout << "{";
-  cout << "\"success\": true,";
-  cout << "\"message\": \"Inicio de sesión correcto. Redirigiendo...\",";
-  cout << "\"data\": 1";
-  cout << "}";
+	string renderedPage = view.Render();
+  
+	cout << renderedPage;
 }
 
 int main() {
   char* contentLength = getenv("CONTENT_LENGTH");
   
   if (!contentLength) {
-    loadLoginPage();
+    LoadLoginPage();
   } else {
-    loadHomePage();
+    LoadHomePage();
   }
 
   return 0;

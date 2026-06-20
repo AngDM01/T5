@@ -2,9 +2,9 @@
 #include <fstream>
 #include <string>
 
-#include "Views/TemplateEngine.hpp"
-#include "Views/View.hpp"
-#include "Views/Static/StaticView.hpp"
+#include "TemplateEngine.hpp"
+#include "View.hpp"
+#include "StaticView.hpp"
 
 using namespace std;
 
@@ -15,7 +15,7 @@ int main()
 	TemplateEngine templateEngine = TemplateEngine();
 	StaticView view(templateEngine, mainPageroute);
 
-	string renderedPage = view.render();
+	string renderedPage = view.Render();
 
 	cout << renderedPage;
 
