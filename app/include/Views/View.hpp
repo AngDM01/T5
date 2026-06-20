@@ -4,51 +4,59 @@
 
 #include <map>
 #include <string>
+#include <exception>
 
 using namespace std;
 
 class View
 {
  public:
-  View(TemplateEngine& templateEnginer) : templateEnginer(templateEnginer) {}
+  View(TemplateEngine& templateEnginer)
+    : templateEnginer(templateEnginer)
+  {
+  }
 
   virtual ~View() = default;
 
-  string render() {
-    string header = buildHeader();
-    string footer = buildFooter();
-    string page = buildPage();
+  string Render()
+  {
+    string header = BuildHeader();
+    string footer = BuildFooter();
+    string page = BuildPage();
 
     return "Content-Type: text/html\r\n\r\n" + header + page + footer;
   }
 
  protected:
-  string buildHeader()
+  string BuildHeader()
   {
-    try {
-      templateEnginer.loadTemplate(headerRoute);
-      return templateEnginer.renderHtml(getHeaderVariables());
+    try
+    {
+      templateEnginer.LoadTemplate(headerRoute);
+      return templateEnginer.RenderHtml(GetHeaderVariables());
     }
-    catch (const exception& e) {
-      cerr << "Error: " << e.what() << endl;
+    catch (const exception& e)
+    {
       return "<html><body><h1>Error</h1><p>Un error ocurrió mientras se renderizaba la cabecera.</p></body></html>";
     }
   }
 
-  string buildFooter() {
-    try {
-      templateEnginer.loadTemplate(footerRoute);
-      return templateEnginer.renderHtml(getFooterVariables());
+  string BuildFooter()
+  {
+    try
+    {
+      templateEnginer.LoadTemplate(footerRoute);
+      return templateEnginer.RenderHtml(GetFooterVariables());
     }
-    catch (const exception& e) {
-      cerr << "Error: " << e.what() << endl;
+    catch (const exception& e)
+    {
       return "<html><body><h1>Error</h1><p>Un error ocurrió mientras se renderizaba el pie de página.</p></body></html>";
     }
   }
 
-  virtual string buildPage() = 0;
+  virtual string BuildPage() = 0;
 
-  virtual map<string, string> getHeaderVariables()
+  virtual map<string, string> GetHeaderVariables()
   {
     map<string, string> variables;
 
@@ -61,7 +69,7 @@ class View
     return variables;
   }
 
-  virtual map<string, string> getFooterVariables()
+  virtual map<string, string> GetFooterVariables()
   {
     map<string, string> variables;
 

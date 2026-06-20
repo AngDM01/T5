@@ -15,7 +15,7 @@ class TemplateEngine
   TemplateEngine() = default;
   ~TemplateEngine() = default;
 
-  void loadTemplate(const string &path)
+  void LoadTemplate(const string &path)
   {
     try {
     ifstream file(path);
@@ -34,9 +34,9 @@ class TemplateEngine
   }
   }
 
-  string renderHtml() { return html; }
+  string RenderHtml() { return html; }
 
-  string renderHtml(map<string, string> variables)
+  string RenderHtml(map<string, string> variables)
   {
     try {
       string result = html;

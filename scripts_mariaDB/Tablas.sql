@@ -1,14 +1,14 @@
-USE Sitio_Tarjetas;
+USE SITIO_TARJETAS;
 
 CREATE TABLE Rol (
     Id_rol INT AUTO_INCREMENT PRIMARY KEY,
     Description VARCHAR(20) NOT NULL
 );
 
-CREATE TABLE User (
+CREATE TABLE Users (
     Id_user INT AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(100) NOT NULL,
-    Age TINYINT NOT NULL CHECK(Age > 0),
+    Age TINYINT UNSIGNED NOT NULL CHECK(Age > 0 AND age < 150),
     Email VARCHAR(255) NOT NULL UNIQUE,
     Password VARCHAR(255) NOT NULL,
     Id_assigned_rol INT NOT NULL,
@@ -26,10 +26,10 @@ CREATE TABLE OTP_admin (
 
     CONSTRAINT fk_otp_user
         FOREIGN KEY (Id_owner_user)
-        REFERENCES User(Id_user)
+        REFERENCES Users(Id_user)
 );
 
-CREATE TABLE Image (
+CREATE TABLE Images (
     Id_image INT AUTO_INCREMENT PRIMARY KEY,
     Alias VARCHAR(255) NOT NULL,
     Extension ENUM('png', 'jpg', 'jpeg') NOT NULL,
@@ -40,10 +40,10 @@ CREATE TABLE Image (
 
     CONSTRAINT fk_image_user
         FOREIGN KEY (Id_uploader_user)
-        REFERENCES User(Id_user)
+        REFERENCES Users(Id_user)
 );
 
-CREATE TABLE Letter (
+CREATE TABLE Letters (
     Id_letter INT AUTO_INCREMENT PRIMARY KEY,
     Letter_title VARCHAR(100) NOT NULL,
     Sender_name VARCHAR(100) NOT NULL,
@@ -58,23 +58,23 @@ CREATE TABLE Letter (
 
     CONSTRAINT fk_letter_image
         FOREIGN KEY (Id_associate_image)
-        REFERENCES Image(Id_image),
+        REFERENCES Images(Id_image),
 
     CONSTRAINT fk_letter_sender_user
         FOREIGN KEY (Id_owner_user)
-        REFERENCES User(Id_user)
+        REFERENCES Users(Id_user),
 
     CONSTRAINT fk_letter_receiver_user
         FOREIGN KEY (Id_receiver_user)
-        REFERENCES User(Id_user)
+        REFERENCES Users(Id_user)
 );
 
-CREATE TABLE Event_type (
+CREATE TABLE Event_types (
     Id_event_type INT AUTO_INCREMENT PRIMARY KEY,
     Description VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE EventLog (
+CREATE TABLE EventLogs (
     Id_event_log INT AUTO_INCREMENT PRIMARY KEY,
     Extra_info TEXT,
     Logged_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -84,13 +84,23 @@ CREATE TABLE EventLog (
 
     CONSTRAINT fk_eventlog_type
         FOREIGN KEY (Id_event_type)
-        REFERENCES Event_type(Id_event_type),
+        REFERENCES Event_types(Id_event_type),
 
     CONSTRAINT fk_eventlog_user
         FOREIGN KEY (Id_associate_user)
-        REFERENCES User(Id_user),
+        REFERENCES Users(Id_user),
 
     CONSTRAINT fk_eventlog_image
         FOREIGN KEY (Id_associate_image)
-        REFERENCES Image(Id_image)
+        REFERENCES Images(Id_image)
+);
+
+CREATE TABLE Sessions (
+    Id_session UUID PRIMARY KEY DEFAULT UUID(),
+    Id_associate_user INT NOT NULL,
+    Expiration DATETIME NOT NULL,
+
+    CONSTRAINT fk_associate_user
+        FOREIGN KEY (Id_associate_user)
+        REFERENCES Users(Id_user)
 );

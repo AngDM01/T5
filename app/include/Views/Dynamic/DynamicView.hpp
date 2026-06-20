@@ -1,27 +1,24 @@
 #pragma once
 
-#include "../View.hpp"
-#include "../TemplateEngine.hpp"
+#include "View.hpp"
+#include "TemplateEngine.hpp"
 
 #include <map>
 #include <string>
 
 using namespace std;
 
-class DynamicView : View
+class DynamicView : protected View
 {
- protected:
-  virtual string buildPage() = 0;
+ public:
+  DynamicView(TemplateEngine& templateEngine)
+    : View(templateEngine)
   {
-    map<string, string> variables;
-
-    variables["PAGETITLE"] = pageTitle;
-    variables["AUTHOR"] = "Ángel Jesús Mena Coudin";
-    variables["YEAR"] = year;
-
-    return variables;
   }
 
+  ~DynamicView() = default;
+
  protected:
-  virtual map<string, string> getPageVariables() = 0;
+  virtual string BuildPage() = 0;
+  virtual map<string, string> GetPageVariables() = 0;
 };

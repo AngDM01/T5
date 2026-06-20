@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../View.hpp"
-#include "../TemplateEngine.hpp"
+#include "View.hpp"
+#include "TemplateEngine.hpp"
 
 #include <map>
 #include <string>
@@ -17,11 +17,11 @@ class StaticView : public View
   ~StaticView() = default;
   
  protected:
-  string buildPage() override
+  string BuildPage() override
   {
     try {
-      templateEnginer.loadTemplate(staticPageRoute);
-      return templateEnginer.renderHtml();
+      templateEnginer.LoadTemplate(staticPageRoute);
+      return templateEnginer.RenderHtml();
     }
     catch (const exception& e) {
       cerr << "Error: " << e.what() << endl;

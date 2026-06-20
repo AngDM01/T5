@@ -1,4 +1,4 @@
-USE Sitio_Tarjetas;
+USE SITIO_TARJETAS;
 
 INSERT INTO Rol (Description)
 VALUES
@@ -6,7 +6,7 @@ VALUES
     ('Registrado'),
     ('Administrador');
 
-INSERT INTO Event_type (Description)
+INSERT INTO Event_types (Description)
 VALUES
     ('Registro de cuenta'),
     ('Inicio de sesión'),
