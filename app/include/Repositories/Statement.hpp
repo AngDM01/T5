@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <deque>
 #include <mariadb/mysql.h>
 #include <string>
 #include <vector>
@@ -19,12 +20,13 @@ public:
   void BindResultUInt8(uint8_t& value);
   void Execute();
   bool Fetch();
+  void Reset();
 
 private:
   MYSQL_STMT* stmt;
   std::vector<MYSQL_BIND> params;
   std::vector<MYSQL_BIND> results;
   std::vector<std::string> stringStorage;
-  std::vector<int> intStorage;
+  std::deque<int> intStorage;
   std::vector<uint8_t>uint8Storage;
 };

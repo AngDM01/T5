@@ -34,6 +34,13 @@ bool Validator::IsValidPassword(const string& password)
   return hasUppercase && hasSpecialCharacter;
 }
 
+bool Validator::IsValidLoginPassword(const std::string &password)
+{
+  if (password.empty() || password.length() > 255) return false;
+
+  return true;
+}
+
 bool Validator::IsValidName(const string& name)
 {
   if (name.empty() || name.length() > 255) return false;
@@ -60,4 +67,18 @@ bool Validator::AreEqualPasswords(const string& password, const string& confPass
   if (password.length() != confPassword.length()) return false;
 
   return password == confPassword;
+}
+
+bool Validator::IsValidUserId(int userId)
+{
+  if (userId < 1) return false;
+
+  return true;
+}
+
+bool Validator::IsValidExpiration(int expirationTime)
+{
+  if (expirationTime < 0 || expirationTime > 120) return false;
+
+  return true;
 }

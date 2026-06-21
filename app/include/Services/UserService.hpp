@@ -5,7 +5,7 @@
 class UserRepository;
 class UserModel;
 class RegisterDTO;
-
+class LoginDTO;
 
 class UserService
 {
@@ -15,7 +15,7 @@ class UserService
 
   int UserAlreadyExistByCheckEmail(const std::string& email);
   bool RegisterNewUser(RegisterDTO& registerData);
-  UserModel GetUserByCredentials(const std::string& email, const std::string& password);
+  int GetUserIdByCredentials(LoginDTO& logiData);
 
  private:
   UserRepository& repository;

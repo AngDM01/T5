@@ -52,7 +52,7 @@ void Statement::BindInt(int value)
   MYSQL_BIND bind{};
   bind.buffer_type = MYSQL_TYPE_LONG;
   bind.buffer = &intStorage.back();
-
+  
   params.push_back(bind);
 }
 
@@ -142,4 +142,13 @@ bool Statement::Fetch()
   Logger::Error(string("[Statment::Fetch]\n") + mysql_stmt_error(stmt));
 
   throw runtime_error("Error fecth el status");
+}
+
+void Statement::Reset()
+{
+  params.clear();
+  results.clear();
+  stringStorage.clear();
+  intStorage.clear();
+  uint8Storage.clear();
 }

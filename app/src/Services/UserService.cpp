@@ -5,6 +5,7 @@
 #include <string>
 
 #include "Logger.hpp"
+#include "LoginDTO.hpp"
 #include "PasswordHasher.hpp"
 #include "RegisterDTO.hpp"
 #include "UserRepository.hpp"
@@ -76,7 +77,23 @@ bool UserService::RegisterNewUser(RegisterDTO& registerData)
   return result;
 }
 
-UserModel UserService::GetUserByCredentials(const string& email, const string& password)
-{
-  return UserModel();
+int UserService::GetUserIdByCredentials(LoginDTO& logiData)
+{ 
+  if (!Validator::IsValidEmail(logiData.GetEmail()))
+  {
+    throw runtime_error("Formato de correo no válido: " + logiData.GetEmail());
+  }
+
+  if (!Validator::IsValidLoginPassword(logiData.GetPassword()))
+  {
+    throw runtime_error("Formato de contraseña no válido: " + logiData.GetPassword());
+  }
+
+  string hashedPassword = PasswordHasher::hashPassword(logiData.GetPassword());
+
+  int idUser = 0;
+
+  idUser = repository.GetUserIdByCredentials(logiData.GetEmail(), hashedPassword);
+
+  return idUser;
 }

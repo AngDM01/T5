@@ -28,6 +28,8 @@ int UserRepository::GetUserIdByEmail(const string& email)
 
     stmt.Execute();
 
+    stmt.Reset();
+
     stmt.Fetch();
     
     return userId;
@@ -54,6 +56,8 @@ bool UserRepository::InsertNewUser(UserModel& userTemp)
 
     stmt.Execute();
 
+    stmt.Reset();
+
     return true;
   }
   catch(const std::exception& e)
@@ -63,7 +67,30 @@ bool UserRepository::InsertNewUser(UserModel& userTemp)
   }
 }
 
-UserModel UserRepository::GetUserByCredentials(const string& email, const string& password)
+int UserRepository::GetUserIdByCredentials(const string& email, const string& password)
 {
-  return UserModel();
+  try
+  {
+    Statement stmt(db.GetConnection(), getUserIdByCredentialsQuery);
+
+    stmt.BindString(email);
+    stmt.BindString(password);
+
+    int userId = 0;
+
+    stmt.BindResultInt(userId);
+
+    stmt.Execute();
+
+    stmt.Reset();
+
+    stmt.Fetch();
+
+    return userId;
+  }
+  catch(const std::exception& e)
+  {
+    Logger::Error(string("[UserRepository::GetUserIdByCredentials]\n") + e.what());
+    return -1;
+  }
 }
