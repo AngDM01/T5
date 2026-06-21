@@ -44,13 +44,13 @@ void Logger::Error(const string& message)
   if (!file)
   {
     cerr << "[" << CurrentDateTime() << "] [ERROR] Unable to open log file: " << path << "\n"
-         << message << "\n";
+        << message << "\n";
     return;
   }
 
   file << "[" << CurrentDateTime() << "] "
-       << "[ERROR] "
-       << message << endl;
+      << "[ERROR] "
+      << message << endl;
 }
 
 void Logger::Info(const string& message)
@@ -61,7 +61,7 @@ void Logger::Info(const string& message)
   if (!file)
   {
     cerr << "[" << CurrentDateTime() << "] [ERROR] Unable to open log file: " << path << "\n"
-         << message << "\n";
+        << message << "\n";
     return;
   }
 
@@ -78,11 +78,28 @@ void Logger::Warning(const string& message)
   if (!file)
   {
     cerr << "[" << CurrentDateTime() << "] [ERROR] Unable to open log file: " << path << "\n"
-         << message << "\n";
+        << message << "\n";
     return;
   }
 
   file << "[" << CurrentDateTime() << "] "
-       << "[WARNING] "
-       << message << endl;
+      << "[WARNING] "
+      << message << endl;
+}
+
+void Logger::Debug(const std::string &message)
+{
+  auto path = GetLogFilePath("debug.log");
+  ofstream file(path, ios::app);
+
+  if (!file)
+  {
+    cerr << "[" << CurrentDateTime() << "] [ERROR] Unable to open log file: " << path << "\n"
+        << message << "\n";
+    return;
+  }
+
+  file << "[" << CurrentDateTime() << "] "
+      << "[DEBUG] "
+      << message << endl;
 }
