@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cstdlib>
 #include <string>
 
 #include "DBConnection.hpp"
@@ -17,7 +16,8 @@
 
 using namespace std;
 
-void LoadRegisterPage() {
+void LoadRegisterPage()
+{
   string registerRoute = "/usr/local/apache2/app/templates/Static/register.html";
 
   TemplateEngine templateEngine = TemplateEngine();
@@ -28,7 +28,8 @@ void LoadRegisterPage() {
 	cout << renderedPage;
 }
 
-void LoadLoginPage(Request& request) {
+void RegisterAttempt(Request& request)
+{
   if (request.GetMethod() != "POST")
   {
     Logger::Info("[loadLoginPage]\n Método http no válido: " + request.GetMethod());
@@ -73,7 +74,7 @@ void LoadLoginPage(Request& request) {
       Logger::Warning("[loadLoginPage]\n No se pudo comprobar el correo.");
 
       cout << "Content-Type: application/json\r\n\r\n";
-      cout << "{\"success\": false, \"message\": \"No se pudo comprobar si la cuenta esta registrada.\"}";
+      cout << "{\"success\": false, \"message\": \"Error: no se pudo comprobar si la cuenta esta registrada.\"}";
       return;
     }
 
@@ -94,7 +95,7 @@ void LoadLoginPage(Request& request) {
   }
   catch(const exception& e)
   {
-    Logger::Error(string("[UserService::userAlreadyExistByCheckEmail]\n") + e.what());
+    Logger::Error(string("[RegisterCGI::LoadLoginPage]\n") + e.what());
 
     JsonBuilder response;
     response.addBool("success", false)
@@ -106,13 +107,14 @@ void LoadLoginPage(Request& request) {
   }
 }
 
-int main() {
+int main()
+{
   Request request;
 
   if (request.GetContentLength() == 0) {
     LoadRegisterPage();
   } else {
-    LoadLoginPage(request);
+    RegisterAttempt(request);
   }
 
   return 0;
