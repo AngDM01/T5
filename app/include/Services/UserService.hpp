@@ -16,6 +16,7 @@ class UserService
   int UserAlreadyExistByCheckEmail(const std::string& email);
   bool RegisterNewUser(RegisterDTO& registerData);
   int GetUserIdByCredentials(LoginDTO& logiData);
+  UserModel GetUserById(int userId);
 
  private:
   UserRepository& repository;

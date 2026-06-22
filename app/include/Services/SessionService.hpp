@@ -11,6 +11,7 @@ class SessionService
   ~SessionService() = default;
 
   std::string CreateNewUserSession(int userId,  int expirationTime);
+  int GetUserIdBySessionId(std::string sessionId);
 
  private:
   SessionRepository& sessionRepository;

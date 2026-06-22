@@ -94,3 +94,40 @@ int UserRepository::GetUserIdByCredentials(const string& email, const string& pa
     return -1;
   }
 }
+
+UserModel UserRepository::GetUserDataByUserId(int userId)
+{
+  try
+  {
+    Statement stmt(db.GetConnection(), getUserByIdUserQuery);
+
+    stmt.BindInt(userId);
+
+    int id;
+    char name[101]{};
+    uint8_t age;
+    char email[256]{};
+    int rolId;
+    char description[256]{};
+
+    stmt.BindResultInt(id);
+    stmt.BindResultString(name, sizeof(name));
+    stmt.BindResultUInt8(age);
+    stmt.BindResultString(email, sizeof(email));
+    stmt.BindResultInt(rolId);
+    stmt.BindResultString(description, sizeof(description));
+
+    stmt.Execute();
+
+    stmt.Reset();
+
+    if (!stmt.Fetch()) return UserModel();
+
+    return UserModel(id, name, age, email, "", rolId, description);
+  }
+  catch(const std::exception& e)
+  {
+    Logger::Error(string("[UserRepository::InsertNewUser]\n") + e.what());
+    return UserModel(-1);
+  }
+}

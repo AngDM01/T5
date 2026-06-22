@@ -13,7 +13,6 @@ SessionRepository::SessionRepository(DBConnection &connection)
 
 bool SessionRepository::CreateUserSession(int userId,  int expirationTime)
 {
-  Logger::Debug("UserId: " + std::to_string(userId));
   try
   {
     Statement stmt(db.GetConnection(), createUserSessionQuery);
@@ -58,5 +57,59 @@ string SessionRepository::GetSessionIdByUserId(int userId)
   {
     Logger::Error(string("[SessionRepository::GetSessionIdByUserId]\n") + e.what());
     return string();
+  }
+}
+
+std::string SessionRepository::CheckIsValidSession(std::string sessionId)
+{
+  try
+  {
+    Statement stmt(db.GetConnection(), checkValidSessionQuery);
+
+    stmt.BindString(sessionId);
+
+    char result[8]{};
+
+    stmt.BindResultString(result, sizeof(result));
+
+    stmt.Execute();
+    
+    stmt.Reset();
+
+    if (!stmt.Fetch()) return string("0");
+
+    return string(result);
+  }
+  catch(const std::exception& e)
+  {
+    Logger::Error(string("[SessionRepository::CheckIsValidSession]\n") + e.what());
+    return string();
+  }
+}
+
+int SessionRepository::GetUserIdBySessionId(std::string sessionId)
+{
+   try
+  {
+    Statement stmt(db.GetConnection(), getUserIdBySessionIdQuery);
+
+    stmt.BindString(sessionId);
+
+    int userId = 0;
+
+    stmt.BindResultInt(userId);
+
+    stmt.Execute();
+    
+    stmt.Reset();
+
+    stmt.Fetch();
+
+    return userId;
+  }
+  catch(const std::exception& e)
+  {
+    Logger::Error(string("[SessionRepository::GetUserIdBySessionId]\n") + e.what());
+    return -1;
   }
 }

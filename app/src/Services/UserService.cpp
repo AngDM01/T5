@@ -97,3 +97,15 @@ int UserService::GetUserIdByCredentials(LoginDTO& logiData)
 
   return idUser;
 }
+
+UserModel UserService::GetUserById(int userId)
+{
+  if (!Validator::IsValidUserId(userId))
+  {
+    throw runtime_error("Formato de identificardor de usuario no válido.");
+  }
+
+  UserModel userData = repository.GetUserDataByUserId(userId);
+
+  return userData;
+}

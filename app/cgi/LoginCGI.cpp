@@ -39,7 +39,7 @@ void LoginAttempt(Request& request)
 {
   if (request.GetMethod() != "POST")
   {
-    Logger::Info("[loadLoginPage]\n Método http no válido: " + request.GetMethod());
+    Logger::Info("[LoginCGI::loadLoginPage]\n Método http no válido: " + request.GetMethod());
 
     JsonBuilder response;
     response.addBool("success", false)
@@ -71,7 +71,7 @@ void LoginAttempt(Request& request)
 
     if (userId == 0)
     {
-      Logger::Info("[LoadHomePage]\n Credenciales proporcionadas inválidas.");
+      Logger::Info("[LoginCGI::LoadHomePage]\n Credenciales proporcionadas inválidas.");
 
       JsonBuilder response;
       response.addBool("success", false)
@@ -84,7 +84,7 @@ void LoginAttempt(Request& request)
 
     if (userId == -1)
     {
-      Logger::Info("[LoadHomePage]\n Error al validar las credenciales.");
+      Logger::Error("[LoginCGI::LoadHomePage]\n Error al validar las credenciales.");
 
       JsonBuilder response;
       response.addBool("success", false)
@@ -98,11 +98,11 @@ void LoginAttempt(Request& request)
     SessionRepository sessionRepo(db);
     SessionService sessionService(sessionRepo);
 
-    string sessionId = sessionService.CreateNewUserSession(userId, 6);
+    string sessionId = sessionService.CreateNewUserSession(userId, 25);
 
     if (sessionId.empty() || sessionId == "0")
     {
-      Logger::Info("[LoadHomePage]\n Error al obtener la sesión.");
+      Logger::Warning("[LoginCGI::LoadHomePage]\n Error al obtener la sesión.");
 
       JsonBuilder response;
       response.addBool("success", false)
@@ -132,7 +132,7 @@ void LoginAttempt(Request& request)
   }
   catch(const std::exception& e)
   {
-    Logger::Error(string("[LoginDTO::LoadHomePage]\n") + e.what());
+    Logger::Error(string("[LoginCGI::LoadHomePage]\n") + e.what());
 
     JsonBuilder response;
     response.addBool("success", false)
@@ -142,7 +142,6 @@ void LoginAttempt(Request& request)
     cout << response.toString();
     return;
   }
-  
 }
 
 int main() {

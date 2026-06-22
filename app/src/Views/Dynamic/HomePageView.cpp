@@ -9,21 +9,9 @@
 using namespace std;
 
 HomePageView::HomePageView(TemplateEngine& templateEnginer, UserModel& userData)
-  : DynamicView(templateEnginer), userData(userData)
+  : DynamicView(templateEnginer, "/usr/local/apache2/app/templates/Dynamic/home.html")
+  , userData(userData)
 {
-}
-
-string HomePageView::BuildPage()
-{
-  try
-  {
-    templateEnginer.LoadTemplate(pageRoute);
-    return templateEnginer.RenderHtml(GetPageVariables());
-  }
-  catch (const exception& e)
-  {
-    return "<h1>Error: </h1><p>Un error ocurrió mientras se renderizaba la página de inicio.</p>";
-  }
 }
 
 map<string, string> HomePageView::GetHeaderVariables()
@@ -44,7 +32,7 @@ map<string, string> HomePageView::GetPageVariables()
   map<string, string> variables;
 
   variables["UserName"] = userData.GetName();
-  variables["UserAge"] = userData.GetAge();
+  variables["UserAge"] = to_string(static_cast<int>(userData.GetAge()));
   variables["UserEmail"] = userData.GetEmail();
 
   return variables;

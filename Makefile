@@ -25,7 +25,7 @@ BIN_DIR = $(APP_DIR)/bin
 
 CGI_FILES = $(wildcard $(CGI_DIR)/*.cpp)
 
-SRC_SUBDIRS = Dtos Models Repositories Services Utils Views
+SRC_SUBDIRS = Dtos Models Repositories Services Utils Views Views/Dynamic Views/Static
 SRC_FILES = $(wildcard $(SRC_DIR)/*.cpp) $(foreach d,$(SRC_SUBDIRS),$(wildcard $(SRC_DIR)/$(d)/*.cpp))
 SRC_OBJECTS = $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SRC_FILES))
 

@@ -510,3 +510,7 @@ html {
 html::-webkit-scrollbar {
 	display: none;
 }
+
+.hidden {
+  display: none !important;
+}

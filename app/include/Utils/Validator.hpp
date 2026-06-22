@@ -13,4 +13,5 @@ class Validator
   static bool AreEqualPasswords(const std::string& password, const std::string& confPassword);
   static bool IsValidUserId(int userId);
   static bool IsValidExpiration(int expirationTime);
+  static bool IsValidSessionId(std::string sessionId);
 };

@@ -36,3 +36,27 @@ string SessionService::CreateNewUserSession(int userId, int expirationTime)
 
   return sessionId;
 }
+
+int SessionService::GetUserIdBySessionId(std::string sessionId)
+{
+  if(!Validator::IsValidSessionId(sessionId))
+  {
+    throw runtime_error("Formato de identificador de sesión no válido.");
+  }
+
+  string existSession = sessionRepository.CheckIsValidSession(sessionId);
+
+  if (existSession == "0" || existSession == "EXPIRED")
+  {
+    throw runtime_error("La sesión no existe o expiró.");
+  }
+
+  if (existSession.empty())
+  {
+    throw runtime_error("Hubo un error al verificar la sesión.");
+  }
+
+  int userId = sessionRepository.GetUserIdBySessionId(sessionId);
+
+  return userId;
+}

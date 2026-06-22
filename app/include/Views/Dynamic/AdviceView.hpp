@@ -9,16 +9,15 @@
 class TemplateEngine;
 class UserModel;
 
-class HomePageView : public DynamicView
+class AdviceView : public DynamicView
 {
  public:
-  HomePageView(TemplateEngine& templateEnginer, UserModel& userData);
-  ~HomePageView() = default;
+  AdviceView(TemplateEngine& templateEnginer, std::string message);
+  ~AdviceView() = default;
 
  protected:
-  std::map<std::string, std::string> GetHeaderVariables() override;
   std::map<std::string, std::string> GetPageVariables() override;
 
  protected:
-  UserModel& userData;
+  std::string message;
 };

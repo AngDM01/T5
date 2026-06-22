@@ -82,3 +82,12 @@ bool Validator::IsValidExpiration(int expirationTime)
 
   return true;
 }
+
+bool Validator::IsValidSessionId(std::string sessionId)
+{
+  if (sessionId.empty()) return false;
+
+  if (sessionId.length() != 36) return false;
+  
+  return true;
+}
