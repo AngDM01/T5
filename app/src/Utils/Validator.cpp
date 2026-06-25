@@ -45,7 +45,10 @@ bool Validator::IsValidName(const string& name)
 {
   if (name.empty() || name.length() > 255) return false;
 
-  return true;
+  for (char c : name)
+      if (!isspace(c)) return true;
+
+  return false;
 }
 
 bool Validator::IsValidAge(const string& age)
@@ -89,5 +92,83 @@ bool Validator::IsValidSessionId(std::string sessionId)
 
   if (sessionId.length() != 36) return false;
   
+  for (char c : sessionId)
+      if (!isspace(c)) return true;
+
+  return false;
+}
+
+bool Validator::IsValidPositiveInt(int value)
+{
+  if (value < 0) return false;
+  
   return true;
+}
+
+bool Validator::IsValidImageAlias(const std::string& alias)
+{
+  if (alias.empty()) return false;
+  if (alias.size() > 255) return false;
+
+  for (char c : alias)
+      if (!isspace(c)) return true;
+
+  return false;
+}
+
+bool Validator::IsValidImageExtension(const std::string& extension)
+{
+  return extension == "png" || extension == "jpg" || extension == "jpeg";
+}
+
+bool Validator::IsValidImageData(const std::vector<uint8_t>& data)
+{
+  return !data.empty();
+}
+
+bool Validator::IsValidImageSize(const std::vector<uint8_t>& data)
+{
+  const size_t MAX_SIZE = 16 * 1024 * 1024; // 16MB (MEDIUMBLOB)
+
+  return data.size() > 0 && data.size() <= MAX_SIZE;
+}
+
+bool Validator::IsValidImageId(const std::string& imageId)
+{
+  if (imageId.empty()) return false;
+
+  for (char c : imageId)
+  {
+    if (!std::isdigit(static_cast<unsigned char>(c))) return false;
+  }
+
+  try
+  {
+    long id = std::stol(imageId);
+    return id > 0;
+  }
+  catch (...)
+  {
+    return false;
+  }
+}
+
+bool Validator::IsValidOffset(const std::string &offset)
+{
+  if (offset.empty()) return false;
+
+  for (char c : offset)
+  {
+    if (!std::isdigit(static_cast<unsigned char>(c))) return false;
+  }
+
+  try
+  {
+    long id = std::stol(offset);
+    return id >= 0;
+  }
+  catch (...)
+  {
+    return false;
+  }
 }

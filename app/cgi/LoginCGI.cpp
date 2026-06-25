@@ -18,6 +18,8 @@
 #include "UserService.hpp"
 #include "View.hpp"
 
+#define SESSIONTIME 30
+
 class UserRepository;
 class UserService;
 
@@ -98,7 +100,7 @@ void LoginAttempt(Request& request)
     SessionRepository sessionRepo(db);
     SessionService sessionService(sessionRepo);
 
-    string sessionId = sessionService.CreateNewUserSession(userId, 25);
+    string sessionId = sessionService.CreateNewUserSession(userId, SESSIONTIME);
 
     if (sessionId.empty() || sessionId == "0")
     {
@@ -113,7 +115,7 @@ void LoginAttempt(Request& request)
       return;
     }
 
-    int maxAge = 25 * 60;
+    int maxAge = SESSIONTIME * 60;
 
     cout << "Set-Cookie: SESSION_ID=" << sessionId
         << "; Max-Age=" << maxAge

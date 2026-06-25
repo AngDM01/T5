@@ -1,6 +1,8 @@
 #pragma once
 
+#include <cstdint>
 #include<string>
+#include <vector>
 
 class Validator
 {
@@ -14,4 +16,11 @@ class Validator
   static bool IsValidUserId(int userId);
   static bool IsValidExpiration(int expirationTime);
   static bool IsValidSessionId(std::string sessionId);
+  static bool IsValidPositiveInt(int value);
+  static bool IsValidImageAlias(const std::string& alias);
+  static bool IsValidImageExtension(const std::string& extension);
+  static bool IsValidImageData(const std::vector<uint8_t>& data);
+  static bool IsValidImageSize(const std::vector<uint8_t>& data);
+  static bool IsValidImageId(const std::string& imageId);
+  static bool IsValidOffset(const std::string& offset);
 };

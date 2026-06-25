@@ -36,39 +36,13 @@
     </div>
 
     <div class="flex-col g-d2 flex-1" style="align-items: center;">
-      <div class="flex-row jutf-cont-spcbet g-d">
+      <div class="flex-row jutf-cont-spcbet g-d" style="width: 80%;">
         <h2 style="margin: 0 !important;">Mis imagenes</h2>
         <p>{{ImagesCount}} imagenes de máximo {{MaxImagesCount}}</p>
       </div>
 
-      <div class="carr-container">
-        <div class="flex-row jutf-cont-spcbet" style="gap: 10px;">
-          <button class="arrow-btn" onclick="moveGallery('carrImgld', -1)">◀</button>
-          <div id="carrImgld" class="carrousel2">
-            <div class="imageCard2">
-              <div>
-                {{Alias}}
-                <label class="custom-bttn2">X</label>
-              </div>
-              <img src="/media/tarjeta2.png" alt="letter" class="img-cust">
-            </div>
-            <div class="imageCard2">
-              <div>
-                {{Alias}}
-                <label class="custom-bttn2">X</label>
-              </div>
-              <img src="/media/tarjeta2.png" alt="letter" class="img-cust">
-            </div>
-            <div class="imageCard2">
-              <div>
-                {{Alias}}
-                <label class="custom-bttn2">X</label>
-              </div>
-              <img src="/media/tarjeta2.png" alt="letter" class="img-cust">
-            </div>
-          </div>
-          <button class="arrow-btn" onclick="moveGallery('carrImgld', 1)">▶</button>
-        </div>
+      <div id="carrImgId" class="carr-container">
+          {{ImagesCards}}
       </div>
     </div>
   </div>

@@ -1,36 +1,19 @@
 #include <iostream>
-#include <fstream>
 #include <string>
 
-#include "AdviceView.hpp"
 #include "Authorization.hpp"
 #include "DBConnection.hpp"
 #include "EnvLoader.hpp"
 #include "HomePageView.hpp"
 #include "Logger.hpp"
-#include "Request.hpp"
-#include "SessionRepository.hpp"
-#include "SessionService.hpp"
-#include "StaticView.hpp"
+#include "SessionLoader.hpp"
 #include "TemplateEngine.hpp"
 #include "UserModel.hpp"
-#include "UserRepository.hpp"
-#include "UserService.hpp"
-#include "View.hpp"
+#include "ViewUtils.hpp"
 
 using namespace std;
 
-std::string LoadAdvicePage(string message)
-{
-	TemplateEngine templateEngine = TemplateEngine();
-	AdviceView view(templateEngine, message);
-
-	string renderedPage = view.Render();
-
-	return renderedPage;
-}
-
-string LoadHomePage(UserModel& userData)
+string RenderHomePage(UserModel& userData)
 {
 	TemplateEngine templateEngine = TemplateEngine();
 	HomePageView view(templateEngine, userData);
@@ -40,86 +23,71 @@ string LoadHomePage(UserModel& userData)
 	return renderedPage;
 }
 
-string LoadSession()
+string LoadHomePage(UserModel& userData)
 {
-	Request request;
-
-	string sessionId = request.GetCookie("SESSION_ID");
-
-	if (sessionId == "")
+	if (!Authorization::CanAccessHome(userData))
 	{
-		Logger::Info("[HomeCGI::LoadSession]\n No se exite la cookie de sesión.");
+		Logger::Error("[HomeCGI::LoadHomePage]\n No tiene permisos para acceder a este recurso");
 
-		return LoadAdvicePage("No se exite la cookie de sesión");
+		return ViewUtils::LoadAdvicePage("No tiene permisos para acceder a este recurso.");
 	}
 
+	try
+	{
+		return RenderHomePage(userData);
+	}
+	catch(const std::exception& e)
+	{
+		Logger::Error("[HomeCGI::LoadSession]\n" + string(e.what()));
+
+		return ViewUtils::LoadAdvicePage("Hubo un error al cargar la pantalla de inicio.");
+	}
+}
+
+string LoadSession(UserModel& userData)
+{
 	try
 	{
 		auto config = EnvLoader::Load("/usr/local/apache2/app/db.env");
 
 		DBConnection db;
 
-		db.Connect(config["DB_HOST"], config["DB_USER"], config["DB_PASS"],
-        config["DB_NAME"], std::stoi(config["DB_PORT"]));
+		db.Connect(config["DB_HOST"], config["DB_USER"], config["DB_PASS"], config["DB_NAME"], stoi(config["DB_PORT"]));
 
-		SessionRepository sessionRepo(db);
-		SessionService sessionService(sessionRepo);
+		SessionLoader sessionLoader(db);
 
-		int userId = sessionService.GetUserIdBySessionId(sessionId);
-
-		if (userId == 0)
+		if (!sessionLoader.Load(userData))
 		{
-			Logger::Info("[HomeCGI::LoadSession]\n No existe usuario asociado a la sesión.");
+			Logger::Error("[ImagesMaintenance::LoadSession]\n." + sessionLoader.GetError());
 
-			return LoadAdvicePage(" No existe usuario asociado a la sesión.");
+			return ViewUtils::LoadAdvicePage(sessionLoader.GetError());
 		}
 
-		if (userId == -1)
-		{
-			Logger::Info("[HomeCGI::LoadSession]\n No se pudo obtener el usuario asociado a la sesión.");
-
-			return LoadAdvicePage("No se pudo obtener el usuario asociado a la sesión.");
-		}
-
-		UserRepository userRepo(db);
-		UserService userService(userRepo);
-
-		UserModel userData = userService.GetUserById(userId);
-
-		if (userData.GetIdUser() == 0)
-		{
-			Logger::Info("[HomeCGI::LoadSession]\n No se pudo cargar al usuario.");
-
-			return LoadAdvicePage("No se pudo cargar al usuario.");
-		}
-
-		if (userData.GetIdUser() == -1)
-		{
-			Logger::Error("[HomeCGI::LoadSession]\n Hubo un error al cargar el usuario.");
-
-			return LoadAdvicePage("Hubo un error al cargar el usuario.");
-		}
-
-		if (!Authorization::CanAccessHome(userData))
-		{
-			Logger::Error("[HomeCGI::LoadSession]\n No tiene permisos para acceder a este recurso");
-
-			return LoadAdvicePage("No tiene permisos para acceder a este recurso.");
-		}
-
-		return LoadHomePage(userData);
+		return string();
 	}
 	catch(const std::exception& e)
 	{
-		Logger::Error(string("[HomeCGI::main]\n") + e.what());
+		Logger::Error("[ImagesMaintenance::LoadSession]\n. Hubo un error al verificar la sesión. " + string(e.what()));
 
-		return LoadAdvicePage(string("Hubo un error al cargar el usuario.") + e.what());
+		return ViewUtils::LoadAdvicePage("Hubo un error al verificar la sesión.");
 	}
 }
 
 int main()
 {	
-	string resultPage = LoadSession();
+	UserModel userData;
+	
+	string response = LoadSession(userData);
+	
+	if (!response.empty())
+	{
+		cout << response;
+		return 0;
+	}
 
-	cout << resultPage;
+	response = LoadHomePage(userData);
+
+	cout << response;
+
+	return 0;
 }

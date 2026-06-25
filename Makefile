@@ -8,7 +8,12 @@ APP_DIR = app
 SRC_DIR = $(APP_DIR)/src
 CGI_DIR = $(APP_DIR)/cgi
 INCLUDE_DIR = $(APP_DIR)/include
-INCLUDE_DIRS = $(INCLUDE_DIR) $(INCLUDE_DIR)/Dtos $(INCLUDE_DIR)/Models $(INCLUDE_DIR)/Repositories $(INCLUDE_DIR)/Services $(INCLUDE_DIR)/Utils $(INCLUDE_DIR)/Views $(INCLUDE_DIR)/Views/Static $(INCLUDE_DIR)/Views/Dynamic
+INCLUDE_DIRS = $(INCLUDE_DIR) $(INCLUDE_DIR)/Application/ $(INCLUDE_DIR)/Domain $(INCLUDE_DIR)/Infrastructure $(INCLUDE_DIR)/Presentation \
+	$(INCLUDE_DIR)/Application/Dtos $(INCLUDE_DIR)/Application/Services \
+	$(INCLUDE_DIR)/Domain/Models \
+	$(INCLUDE_DIR)/Infrastructure/Repositories \
+	$(INCLUDE_DIR)/Presentation/Views $(INCLUDE_DIR)/Presentation/Views/Static $(INCLUDE_DIR)/Presentation/Views/Dynamic \
+	$(INCLUDE_DIR)/Utils 
 CXXFLAGS = -Wall -std=c++17 -pipe $(patsubst %,-I%,$(INCLUDE_DIRS))
 DEPFLAGS = -MMD -MP
 JOBS ?= 4
@@ -25,7 +30,12 @@ BIN_DIR = $(APP_DIR)/bin
 
 CGI_FILES = $(wildcard $(CGI_DIR)/*.cpp)
 
-SRC_SUBDIRS = Dtos Models Repositories Services Utils Views Views/Dynamic Views/Static
+SRC_SUBDIRS = Application Domain Infrastructure Presentation \
+	Application/Dtos Application/Services \
+	Domain/Models \
+	Infrastructure/Repositories  \
+	Presentation/Views Presentation/Views/Dynamic Presentation/Views/Static \
+	Utils
 SRC_FILES = $(wildcard $(SRC_DIR)/*.cpp) $(foreach d,$(SRC_SUBDIRS),$(wildcard $(SRC_DIR)/$(d)/*.cpp))
 SRC_OBJECTS = $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SRC_FILES))
 
@@ -69,7 +79,7 @@ image:
 	docker build -t $(IMAGE) .
 
 up:
-	@docker start $(CONTAINER) 2>NUL || docker run -d \
+	@docker start $(CONTAINER) 2>/dev/null || docker run -d \
 		--name $(CONTAINER) \
 		-p 80:80 \
 		-v "$(CURDIR)/app:/usr/local/apache2/app" \
@@ -134,7 +144,7 @@ destroy: remove-container remove-image
 
 rebuild: clean all
 
-dev: image up all
+dev: image remove-container up all url
 
 url:
 	@echo Servidor iniciado:

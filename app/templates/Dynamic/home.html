@@ -25,12 +25,12 @@
 
   <div>
     <div class="bttn-grp">
-      <button class="custom-bttn">Cartas enviadas</button>
-      <button class="custom-bttn">Cartas recibidas</button>
+      <button class="custom-bttn" onclick="loadLetterTable(true)"">Cartas enviadas</button>
+      <button class="custom-bttn" onclick="loadLetterTable(false)">Cartas recibidas</button>
       <button class="custom-bttn" onclick="goToCreateLetter()">Enviar una carta</button>
       <button class="custom-bttn" onclick="goToImageMaint()">Subir una imagen</button>
     </div>
 
-    <section id="letterSection" class="letters-table hidden">
+    <section id="lettersSection" class="letters-table">
     </section>
   </div>

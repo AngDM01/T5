@@ -6,42 +6,18 @@
     <div class="flex-row g-d flex-wrap" style="align-items: flex-start;">
       <div class="flex-col g-d2">
         <div class="carr-container">
-          <h2>Catálogo de imagenes</h2>
+          <h2>Catálogo de imágenes</h2>
 
-          <div class="flex-row jutf-cont-spcbet" style="gap: 10px;">
-            <button class="arrow-btn" onclick="moveGallery('carrCat', -1)">◀</button>
-            <div id="carrCat" class="carrousel">
-              <div class="imageCard">
-                <img src="/media/tarjeta2.png" alt="letter">
-              </div>
-              <div class="imageCard">
-                <img src="/media/tarjeta2.png" alt="letter">
-              </div>
-              <div class="imageCard">
-                <img src="/media/tarjeta2.png" alt="letter">
-              </div>
-            </div>
-            <button class="arrow-btn" onclick="moveGallery('carrCat', 1)">▶</button>
+          <div id="catalogCarr" style="width: fit-content;">
+            {{CatalogImages}}
           </div>
         </div>
         
         <div class="carr-container">
-          <h2>Catálogo de imagenes</h2>
+          <h2>Mis imágenes</h2>
 
-          <div class="flex-row jutf-cont-spcbet" style="gap: 10px;">
-            <button class="arrow-btn" onclick="moveGallery('carrCat', -1)">◀</button>
-            <div id="carrCat" class="carrousel">
-              <div class="imageCard">
-                <img src="/media/tarjeta2.png" alt="letter">
-              </div>
-              <div class="imageCard">
-                <img src="/media/tarjeta2.png" alt="letter">
-              </div>
-              <div class="imageCard">
-                <img src="/media/tarjeta2.png" alt="letter">
-              </div>
-            </div>
-            <button class="arrow-btn" onclick="moveGallery('carrCat', 1)">▶</button>
+          <div id="userCarr" style="width: fit-content;">
+            {{UserImages}}
           </div>
         </div>
       </div>
@@ -49,7 +25,7 @@
       <div class="flex-1 jutf-cont-cent">
         <form id="letterForm" onsubmit="sendLetter(event)">
           <div class="ltr-container">
-            <div class="lttr-img">
+            <div id="bg-img" class="lttr-img">
               <fieldset class="fldset-form fldset-style">
                 <div class="input-comb">
                   <div class="ipt-comb-div">
