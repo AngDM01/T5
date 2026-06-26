@@ -11,4 +11,5 @@ class Authorization
   static bool CanUploadImages(const UserModel& user);
   static bool CanDeleteImages(const UserModel& user);
   static bool CanMoveGallery(const UserModel& user);
+  static bool CanViewLettersTables(const UserModel& user);
 };

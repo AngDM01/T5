@@ -23,4 +23,5 @@ class Validator
   static bool IsValidImageSize(const std::vector<uint8_t>& data);
   static bool IsValidImageId(const std::string& imageId);
   static bool IsValidOffset(const std::string& offset);
+  static bool IsValidLetterId(const std::string& letterId);
 };

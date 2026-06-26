@@ -119,9 +119,9 @@ UserModel UserRepository::GetUserDataByUserId(int userId)
 
     stmt.Execute();
 
-    stmt.Reset();
-
     if (!stmt.Fetch()) return UserModel();
+    
+    stmt.Reset();
 
     return UserModel(id, name, age, email, "", rolId, description);
   }

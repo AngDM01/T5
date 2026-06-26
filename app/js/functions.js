@@ -72,19 +72,34 @@ function goToHome() {
   window.location.href = "/cgi/HomeCGI.cgi"
 }
 
-async function loadLetterTable(isSendedLetters) {
+async function loadLetterTable(isSendedLetters, offset) {
   const params = new URLSearchParams();
   params.append("isSendedLetters", isSendedLetters);
+  params.append("offset", offset);
 
-  const response = await fetch(`/cgi/LettersTablesCGI.cgi?${params}`);
+  try {
+    const response = await fetch(`/cgi/LetterTablesCGI.cgi?${params}`);
 
-  if (!response.ok) {
-    createNotify('err', "Error al cargar la tabla");
+    if (!response.ok) {
+      createNotify('err', "Error al cargar la tabla");
+    }
+    
+    const result = await response.json();
+    
+    if (result.success) {
+      const table = result.content;
+
+      document.getElementById("lettersSection").innerHTML = table;
+    } else {
+      createNotify(result.type, result.message);
+    }
+  } catch (err) {
+    createNotify('err', "Hubo un error al cargar la tabla, no se puedo comunicar con el servidor");
   }
+}
 
-  const Table = await response.text();
-
-  document.getElementById("lettersSection").innerHTML = Table;
+function viewLetterDetails(letterId) {
+  window.location.href = `/cgi/ViewLetterCGI.cgi?letterId=${letterId}`;
 }
 
 function goToCreateLetter() {

@@ -153,7 +153,7 @@ bool Validator::IsValidImageId(const std::string& imageId)
   }
 }
 
-bool Validator::IsValidOffset(const std::string &offset)
+bool Validator::IsValidOffset(const std::string& offset)
 {
   if (offset.empty()) return false;
 
@@ -164,8 +164,28 @@ bool Validator::IsValidOffset(const std::string &offset)
 
   try
   {
-    long id = std::stol(offset);
-    return id >= 0;
+    long offs = std::stol(offset);
+    return offs >= 0;
+  }
+  catch (...)
+  {
+    return false;
+  }
+}
+
+bool Validator::IsValidLetterId(const std::string& letterId)
+{
+  if (letterId.empty()) return false;
+
+  for (char c : letterId)
+  {
+    if (!std::isdigit(static_cast<unsigned char>(c))) return false;
+  }
+
+  try
+  {
+    long id = std::stol(letterId);
+    return id > 0;
   }
   catch (...)
   {

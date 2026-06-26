@@ -131,6 +131,14 @@ h2 {
 	gap: clamp(20px, 5vw, 50px);
 }
 
+.g-d3 {
+	gap: clamp(10px, 5vw, 30px);
+}
+
+.g-d4 {
+	gap: clamp(10px, 5vw, 20px);
+}
+
 p {
 	font-size: 18px;
 	font-family: "Comic Sans MS", sans-serif;
@@ -271,9 +279,21 @@ p {
 	background: var(--color-background-secondary);
 }
 
-.table-h {
+.letters-tabl {
+  width: 100%;
+}
+
+.table-h,
+.table-r {
+	display: grid;
+	grid-template-columns: 2fr 1.5fr 2fr 1.5fr max-content;
+	align-items: center;
 	width: 100%;
 	padding: 10px 10px;
+}
+
+
+.table-h {
 	border-radius: 8px;
 	font-size: 16px;
 	color: var(--color-text);
@@ -281,7 +301,6 @@ p {
 }
 
 .table-r {
-	width: 100%;
 	padding: 10px 10px;
 	border-radius: 8px;
 	font-size: 15px;
@@ -545,4 +564,12 @@ html::-webkit-scrollbar {
 
 .hidden {
   display: none;
+}
+
+.pagination {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 6px;
+	min-width: 420px;
 }

@@ -144,3 +144,20 @@ bool Authorization::CanMoveGallery(const UserModel &user)
       return false;
   }
 }
+
+bool Authorization::CanViewLettersTables(const UserModel &user)
+{
+  Role r = static_cast<Role>(user.GetIdAssignedRol());
+
+  switch (r)
+  {
+    case Role::REGISTERED:
+      return true;
+
+    case Role::ADMIN:
+      return true;
+
+    default:
+      return false;
+  }
+}

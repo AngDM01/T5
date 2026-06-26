@@ -35,6 +35,6 @@ class DynamicView : public View
 
   virtual map<string, string> GetPageVariables() = 0;
 
-  protected:
+ protected:
   std::string pageRoute;
 };
