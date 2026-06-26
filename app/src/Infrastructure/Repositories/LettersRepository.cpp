@@ -191,28 +191,6 @@ LetterModel LettersRepository::GetLetterFromUserByLetterId(int userId, int lette
 
     if (!stmt.Fetch()) return LetterModel();
 
-    Logger::Debug("letterId: " + std::to_string(letterId));
-
-    Logger::Debug("Titulo: " + std::string(letterTitle));
-
-    Logger::Debug("De: " + std::string(senderName));
-
-    Logger::Debug("Correo remitente: " + std::string(senderEmail));
-
-    Logger::Debug("Para: " + std::string(receiverName));
-
-    Logger::Debug("Correo destinatario: " + std::string(receiverEmail));
-
-    Logger::Debug("Texto: " + std::string(textLetter));
-
-    Logger::Debug("Fecha envío: " + std::string(sendDate));
-
-    Logger::Debug("Id imagen asociada: " + std::to_string(idAssociateImage));
-
-    Logger::Debug("Id owner user: " + std::to_string(idOwnerUser));
-
-    Logger::Debug("Id receiver user: " + std::to_string(idReceiverUser));
-
     stmt.Reset();
 
     return LetterModel(letterId, letterTitle, senderName, senderEmail, receiverName, receiverEmail,
