@@ -5,6 +5,9 @@
 #include "DBConnection.hpp"
 #include "DetailLetterView.hpp"
 #include "EnvLoader.hpp"
+#include "ImagesModel.hpp"
+#include "ImagesRepository.hpp"
+#include "ImagesService.hpp"
 #include "JsonBuilder.hpp"
 #include "LetterModel.hpp"
 #include "LettersRepository.hpp"
@@ -74,6 +77,27 @@ string ViewLetter(Request& request, UserModel& userData)
 
 			return ViewUtils::LoadAdvicePage("Ocurrió un error al obtener la información de la carta.");
 		}
+
+		ImagesModel imageData;
+
+		if (letter.GetIdAssociateImage() != 0)
+		{
+			ImagesRepository imagesRepo(db);
+			ImagesService imagesService(imagesRepo);
+			
+			imageData = imagesService.GetImageByImageId(letter.GetIdAssociateImage());
+
+			if (imageData.GetIdImage() == -1)
+			{
+				Logger::Error("[ViewLetterCGI::ViewLetter]\n Ocurrió un error al obtener la imagen de la carta. "
+        		+ string(userData.GetIdUser() + ", " + userData.GetName()));
+				
+				imageData.SetIdImage(0);
+			}
+
+		}
+		
+		letter.SetImage(imageData);
 
 		return RenderViewLetterPage(letter);
 	}

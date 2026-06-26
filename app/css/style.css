@@ -370,7 +370,9 @@ p {
 }
 
 .lttr-img {
-	background-color: none;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
 	border: 1px solid var(--color-primary);
 	border-radius: 20px;
 	padding: clamp(30px, 5vw, 50px);

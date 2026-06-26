@@ -14,7 +14,7 @@ class DetailLetterView : public DynamicView
  protected:
   std::map<std::string, std::string> GetHeaderVariables() override;
   std::map<std::string, std::string> GetPageVariables() override;
-
+  string MakeImageBackground();
  protected:
   LetterModel letter;
 };

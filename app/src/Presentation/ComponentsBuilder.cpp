@@ -311,3 +311,14 @@ std::string ComponentsBuilder::BuildReceivedLetterTable(std::list<LetterModel> &
 
   return html.str();
 }
+
+std::string ComponentsBuilder::BuildImageSource(const ImagesModel& image)
+{
+  if (image.GetIdImage() == 0) return "none";
+
+  std::string mime = Imagehelper::ImageExtensionMIME(image.GetExtension());
+
+  std::string src = "data:image/" + mime + ";base64," + Imagehelper::Encode(image.GetImageData());
+
+  return "url('" + src + "')";
+}

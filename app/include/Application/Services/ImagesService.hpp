@@ -19,6 +19,7 @@ public:
   bool DeleteImageById(int userId, std::string& imageId);
   int GetIsCatalogImagesCount();
   std::list<ImagesModel> GetCatalogImagesInRange(int limit, int start);
+  ImagesModel GetImageByImageId(int imageId);
 
  private:
   ImagesRepository& repository;

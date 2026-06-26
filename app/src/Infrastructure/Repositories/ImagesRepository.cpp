@@ -210,3 +210,48 @@ std::list<ImagesModel> ImagesRepository::GetCatalogImagesInRange(int limit, int 
     return list<ImagesModel>{ ImagesModel(-1) };
   }
 }
+
+ImagesModel ImagesRepository::GetImageDataByImageId(int imageId)
+{
+  try
+  {
+    Statement  stmt(db.GetConnection(), getImageByImageIdQuery);
+
+    stmt.BindInt(imageId);
+
+    int idImage = 0;
+    char alias[256]{};
+    char extension[16]{};
+    vector<uint8_t> imageBuffer(16 * 1024 * 1024);
+    unsigned long imageLength = 0;
+    uint8_t isCatalog = 0;
+    char uploadDate[64]{};
+    int idUploaderUser = 0;
+
+    stmt.BindResultInt(idImage);
+    stmt.BindResultString(alias, sizeof(alias));
+    stmt.BindResultString(extension, sizeof(extension));
+    stmt.BindResultBlob(reinterpret_cast<char*>(imageBuffer.data()), imageBuffer.size(), imageLength);
+    stmt.BindResultUInt8(isCatalog);
+    stmt.BindResultString(uploadDate, sizeof(uploadDate));
+    stmt.BindResultInt(idUploaderUser);
+
+    stmt.Execute();
+
+    if (!stmt.Fetch()) return ImagesModel();
+
+    stmt.Reset();
+
+    imageBuffer.resize(imageLength);
+      
+    vector<uint8_t> imageData(imageBuffer.begin(), imageBuffer.begin() + imageLength);
+
+    return ImagesModel(idImage, alias, extension, imageData, isCatalog != 0, uploadDate, idUploaderUser);
+  }
+  catch(const std::exception& e)
+  {
+    Logger::Error(string("[ImagesRepository::GetImageDataByImageId]\n") + e.what());
+    return ImagesModel(-1);
+  }
+  
+}

@@ -1,5 +1,6 @@
 #include "DetailLetterView.hpp"
 
+#include "ComponentsBuilder.hpp"
 #include "DynamicView.hpp"
 #include "LetterModel.hpp"
 #include "TemplateEngine.hpp"
@@ -28,6 +29,7 @@ std::map<std::string, std::string> DetailLetterView::GetPageVariables()
 {
   map<string, string> variables;
   
+  variables["ImageBG"] = MakeImageBackground();
   variables["SenderName"] = letter.GetSenderName();
   variables["ReceiverName"] = letter.GetReceiverName();
   variables["ReceiverEmail"] = letter.GetReceiverEmail();
@@ -36,4 +38,11 @@ std::map<std::string, std::string> DetailLetterView::GetPageVariables()
   variables["LetterText"] = letter.GetTextLetter();
 
   return variables;
+}
+
+string DetailLetterView::MakeImageBackground()
+{
+  ComponentsBuilder builder;
+
+  return builder.BuildImageSource(letter.GetImage());
 }

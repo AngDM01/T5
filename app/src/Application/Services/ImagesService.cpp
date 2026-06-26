@@ -130,6 +130,18 @@ std::list<ImagesModel> ImagesService::GetCatalogImagesInRange(int limit, int sta
   return images;
 }
 
+ImagesModel ImagesService::GetImageByImageId(int imageId)
+{
+  if (!Validator::IsValidImageId(to_string(imageId)))
+  {
+    throw runtime_error("Formato del identificador de la Imagen no válido.");
+  }
+
+  ImagesModel image = repository.GetImageDataByImageId(imageId);
+
+  return image;
+}
+
 int ImagesService::GetIsCatalogImagesCount()
 {
   int isCatalogTotalImages = 0;

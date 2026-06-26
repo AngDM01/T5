@@ -19,6 +19,7 @@ class ImagesRepository
   bool DeleteImageFromUserByImageId(int uploaderId, int imageId);
   int GetIsCatalogTotalImagesCount();
   std::list<ImagesModel> GetCatalogImagesInRange(int limit, int start);
+  ImagesModel GetImageDataByImageId(int imageId);
 
  private:
   DBConnection& db;
@@ -40,4 +41,8 @@ class ImagesRepository
       "WHERE Is_catalog = TRUE "
       "ORDER BY Id_image DESC " \
       "LIMIT ? OFFSET ?;";
+	const char* getImageByImageIdQuery =
+			"SELECT Id_image, Alias, Extension, Image_data, Is_catalog, Upload_date, Id_uploader_user " \
+			"FROM Images "\
+			"WHERE Id_image = ?";
 };
