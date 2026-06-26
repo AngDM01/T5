@@ -116,13 +116,14 @@ bool ImagesRepository::InsertImage(int userId, bool isCatalog, const ImageDTO& i
   }
 }
 
-bool ImagesRepository::DeleteImageByImageId(int imageId)
+bool ImagesRepository::DeleteImageFromUserByImageId(int uploaderId, int imageId)
 {
   try
   {
-    Statement stmt(db.GetConnection(), deleteImageByImageIdQuery);
+    Statement stmt(db.GetConnection(), deleteImageFromUserByImageIdQuery);
 
     stmt.BindInt(imageId);
+    stmt.BindInt(uploaderId);
 
     stmt.Execute();
 

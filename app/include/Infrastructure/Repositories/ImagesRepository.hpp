@@ -16,7 +16,7 @@ class ImagesRepository
   int GetImagesAsociateToUserCount(int uploaderId);
   std::list<ImagesModel> GetImagesInRangeByUploaderId(int uploaderId, int limit, int start);
   bool InsertImage(int userId, bool isCatalog, const ImageDTO& image);
-  bool DeleteImageByImageId(int imageId);
+  bool DeleteImageFromUserByImageId(int uploaderId, int imageId);
   int GetIsCatalogTotalImagesCount();
   std::list<ImagesModel> GetCatalogImagesInRange(int limit, int start);
 
@@ -33,7 +33,7 @@ class ImagesRepository
   const char* insertImageQuery =
       "INSERT INTO Images (Alias, Extension, Image_Data, Is_catalog, Id_uploader_user) " \
       "VALUES (?, ?, ?, ?, ?)";
-  const char* deleteImageByImageIdQuery = "DELETE FROM Images WHERE Id_image = ?";
+  const char* deleteImageFromUserByImageIdQuery = "DELETE FROM Images WHERE Id_image = ? AND Id_uploader_user = ?";
 	const char* getIsCatalogImageCountQuery = "SELECT COUNT(*) AS CatalogTotalImages FROM Images WHERE Is_catalog = TRUE";
 	const char* getCatalogImagesQuery = "SELECT Id_image, Alias, Extension, Image_data, Is_catalog, Upload_date, Id_uploader_user " \
       "FROM Images " \

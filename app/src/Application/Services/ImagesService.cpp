@@ -94,8 +94,13 @@ bool ImagesService::UploadImage(int userId, bool isCatalog, ImageDTO& imageDto)
   return insertResult;
 }
 
-bool ImagesService::DeleteImageById(string& imageId)
+bool ImagesService::DeleteImageById(int userId, string& imageId)
 {
+  if (!Validator::IsValidUserId(userId))
+  {
+    throw runtime_error("Formato de identificardor de usuario no válido.");
+  }
+
   if (!Validator::IsValidImageId(imageId))
   {
     throw runtime_error("Formato del identificador de la Imagen no válido.");
@@ -103,7 +108,7 @@ bool ImagesService::DeleteImageById(string& imageId)
 
   int id = std::stoi(imageId);
 
-  bool deleteResult = repository.DeleteImageByImageId(id);
+  bool deleteResult = repository.DeleteImageFromUserByImageId(userId, id);
 
   return deleteResult;
 }

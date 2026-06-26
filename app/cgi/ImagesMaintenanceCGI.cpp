@@ -60,7 +60,7 @@ string DeleteImage(Request& request, UserModel& user)
 		ImagesRepository imagesRepository(db);
 		ImagesService imagesService(imagesRepository);
 
-		bool deleteResult = imagesService.DeleteImageById(imageId);
+		bool deleteResult = imagesService.DeleteImageById(user.GetIdUser(), imageId);
 
 		if (!deleteResult)
 		{

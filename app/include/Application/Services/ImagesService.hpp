@@ -16,7 +16,7 @@ public:
   int GetTotalImagesCountFromUser(int userId);
   std::list<ImagesModel> GetImagesFromUserInRange(int userId, int limit, int start);
   bool UploadImage(int userId, bool isCatalog, ImageDTO& imageDto);
-  bool DeleteImageById(std::string& imageId);
+  bool DeleteImageById(int userId, std::string& imageId);
   int GetIsCatalogImagesCount();
   std::list<ImagesModel> GetCatalogImagesInRange(int limit, int start);
 
