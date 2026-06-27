@@ -448,7 +448,8 @@ async function sendLetter(event) {
     });
 
     if (!response.ok) {
-      createNotify('err', "Error al intentar validar el OTP.");
+
+      createNotify('err', "Error al intentar enviar la carta.");
       return;
     }
 
@@ -458,6 +459,10 @@ async function sendLetter(event) {
       createNotify("warn", data.message);
       return;
     }
+
+    setTimeout(() => {
+      window.location.href = "/cgi/HomeCGI.cgi";
+    }, 1500);
 
     createNotify("succ", data.message);
   } catch (err) {
