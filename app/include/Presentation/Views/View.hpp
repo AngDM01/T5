@@ -62,7 +62,7 @@ class View
 
     variables["PAGETITLE"] = pageTitle;
 
-    string options = "<a href=\"/cgi/loginCGI.cgi\" class=\"menu-item\">Ingresar</a>";
+    string options = "<a href=\"/cgi/LoginCGI.cgi\" class=\"menu-item\">Ingresar</a>";
 
     variables["OPTIONS"] = options;
 

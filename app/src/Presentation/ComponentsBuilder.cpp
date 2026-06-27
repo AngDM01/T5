@@ -88,11 +88,10 @@ string ComponentsBuilder::BuildImageCarrouselType1(list<ImagesModel> &images, st
     string src = "data:image/" + mime + ";base64," + Imagehelper::Encode(image.GetImageData());
 
     html << "<div class=\"imageCard\">"
-        << "<img class=\"img-cust\" onclick=\"setBackgroundImage('"
-        << src
-        << "')\" src=\""
-        << src
-        << "\">"
+        << "<img class=\"img-cust\" "
+        << "data-image-id=\"" << image.GetIdImage() << "\" "
+        << "onclick=\"selectImage(this, '" << src << "')\" "
+        << "src=\"" << src << "\">"
         << "</div>";
   }
 
@@ -150,7 +149,7 @@ std::string ComponentsBuilder::BuildSendedLetterTable(std::list<LetterModel> &se
         << "<span>" << letter.GetSendDate() << "</span> "
         << "<span class=\"custom-bttn2\" onclick=\"viewLetterDetails("
         << letter.GetIdLetter()
-        << ")\">Detalle</span>"
+        << ")\">Ver</span>"
         << "</span>";
   }
 
@@ -226,7 +225,7 @@ std::string ComponentsBuilder::BuildReceivedLetterTable(std::list<LetterModel> &
       << "Página " << currentPage << " "
       << "de " << totalPages
       << "<div>"
-      << receivedLetterCount <<  " cartas enviadas"
+      << receivedLetterCount <<  " cartas recibidas"
       << "</div>"
       << "</div>";
 
@@ -242,14 +241,20 @@ std::string ComponentsBuilder::BuildReceivedLetterTable(std::list<LetterModel> &
 
   for (const LetterModel& letter : receivedLetters)
   {
-    html << "<span class=\"table-r\">"
-        << "<span>" << letter.GetLetterTitle() << "</span> "
+    html << "<span class=\"table-r\">";
+
+    if (!letter.GetOpenedStatus())
+    {
+      html << "<span class=\"resaltedDot\"></span>";
+    }
+
+    html << "<span>" << letter.GetLetterTitle() << "</span> "
         << "<span>" << letter.GetSenderName() << "</span> "
         << "<span>" << letter.GetSenderEmail() << "</span> "
         << "<span>" << letter.GetSendDate() << "</span> "
         << "<span class=\"custom-bttn2\" onclick=\"viewLetterDetails("
         << letter.GetIdLetter()
-        << ")\">Detalle</span>"
+        << ")\">Ver</span>"
         << "</span>";
   }
 

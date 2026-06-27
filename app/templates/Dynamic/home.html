@@ -1,26 +1,33 @@
-  <div class="form-div">
-      <section class="perfil">
-        <div style="width: 100%;">
-          <h2>Perfil</h2>
-        </div>
+  <div class="ltr-container">
+    <section class="perfil">
+      <div style="width: 100%;">
+        <h2>Perfil</h2>
+      </div>
 
-        <fieldset>
-          <div>
+      <fieldset class="fldset-form fldset-style">
+        <div class="input-comb">
+          <div class="ipt-comb-div">
             <label for="name">Nombre completo</label>
             <label class="input" id="name" name="name">{{UserName}}</label>
           </div>
 
-          <div>
-            <label for="age">Edad</label>
-            <label class="input" id="age" name="age">{{UserAge}}</label>
+          <div class="ipt-comb-div">
+            <label for="remitEmail">Rol en el sistema</label>
+            <label class="input" id="remitEmail" name="remitEmail">{{UserRol}}</label>
           </div>
+        </div>
 
-          <div>
-            <label for="email">Correo electrónico</label>
-            <label class="input" id="email" name="email">{{UserEmail}}</label>
-          </div>
-        </fieldset>
-      </section>
+        <div class="nor-form-div">
+          <label for="age">Edad</label>
+          <label class="input" id="age" name="age">{{UserAge}}</label>
+        </div>
+
+        <div class="nor-form-div">
+          <label for="email">Correo electrónico</label>
+          <label class="input" id="email" name="email">{{UserEmail}}</label>
+        </div>
+      </fieldset>
+    </section>
   </div>
 
   <div>

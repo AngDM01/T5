@@ -16,6 +16,7 @@ class UserRepository
   bool InsertNewUser(UserModel& userTemp);
   int GetUserIdByCredentials(const std::string& email, const std::string& password);
   UserModel GetUserDataByUserId(int userId);
+  int GetUserRolByUserId(int userId);
 
  private:
   DBConnection& db;
@@ -28,4 +29,5 @@ class UserRepository
       "FROM Users u " \
       "INNER JOIN Rol r ON u.Id_assigned_rol = r.Id_rol " \
       "WHERE u.Id_user = ?";
+  const char* getUserRolByUserId = "SELECT Id_assigned_rol FROM Users WHERE Id_user = ?";
 };

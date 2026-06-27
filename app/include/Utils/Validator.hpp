@@ -24,4 +24,5 @@ class Validator
   static bool IsValidImageId(const std::string& imageId);
   static bool IsValidOffset(const std::string& offset);
   static bool IsValidLetterId(const std::string& letterId);
+  static bool IsValidOTP(const std::string& otp);
 };

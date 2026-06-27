@@ -301,9 +301,22 @@ p {
 }
 
 .table-r {
+	position: relative;
 	padding: 10px 10px;
 	border-radius: 8px;
 	font-size: 15px;
+}
+
+.resaltedDot {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+
+  width: 8px;
+  height: 8px;
+  background: #1e90ff;
+  border-radius: 50%;
+	box-shadow: 0 0 6px rgba(30, 144, 255, 0.6);
 }
 
 /* notificaciones */
@@ -410,7 +423,7 @@ p {
 }
 
 .input-comb {
-	display: flex;
+	display: flex !important;
 	gap: clamp(10px, 5vw, 20px);
 }
 

@@ -11,7 +11,11 @@ class SessionService
   ~SessionService() = default;
 
   std::string CreateNewUserSession(int userId,  int expirationTime);
-  int GetUserIdBySessionId(std::string sessionId);
+  int GetUserIdBySessionId(std::string& sessionId);
+  bool DeleteUserSession(std::string& sessionId);
+  std::string CreatePendingAdminSession(int userId, int expirationTime);
+  int GetPendingAdminUser(std::string& sessionId);
+  bool DeletePendingAdminSession(int userId);
 
  private:
   SessionRepository& sessionRepository;

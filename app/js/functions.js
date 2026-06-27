@@ -3,37 +3,59 @@ function goToMain() {
 }
 
 function gotToLogin() {
-  window.location.href = "/cgi/loginCGI.cgi"
+  window.location.href = "/cgi/LoginCGI.cgi"
 }
 
-function sendLogin(event) {
+async function sendLogin(event) {
   event.preventDefault();
 
-  const form = document.getElementById('loginForm');
+  const form = document.getElementById("loginForm");
   const formData = new FormData(form);
 
-  fetch('/cgi/LoginCGI.cgi', {
-    method: 'POST',
-    body: formData
-  })
-  .then(response => response.json())
-  .then(data => {
-    console.log('Respuesta del servidor:', data);
+  try {
+    const response = await fetch("/cgi/LoginCGI.cgi", {
+      method: "POST",
+      body: formData
+    });
 
-    if (data.success) {
-      createNotify('succ', data.message || 'Inicio de sesión exitoso');
+    if (!response.ok) {
+      const text = await response.text();
+      console.error(text);
+      createNotify("err", "Error del servidor.");
+      return;
+    }
+
+    const data = await response.json();
+
+    if (!data.success) {
+      createNotify("warn", data.message);
+      return;
+    }
+
+    
+    if (data.requireOTP) {
+      sessionStorage.setItem("adminEmail", data.email);
+      sessionStorage.setItem("adminPassword", data.pwd);
+      
+      createNotify(data.type, data.message);
 
       setTimeout(() => {
-        window.location.href = '/cgi/HomeCGI.cgi';
-      }, 1000);
-    } else {
-      createNotify('warn', data.message);
+        window.location.href = "/cgi/AdminOTPLoginCGI.cgi";
+      }, 1500);
+      
+      return;
     }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-    createNotify('err', error.message);
-  });
+    
+    createNotify("succ", data.message);
+    
+    setTimeout(() => {
+      window.location.href = "/cgi/HomeCGI.cgi";
+    }, 1000);
+
+  } catch (error) {
+    console.error(error);
+    createNotify("err", "1" + error.message || "Error al iniciar sesión.");
+  }
 }
 
 function goToRegister() {
@@ -82,6 +104,7 @@ async function loadLetterTable(isSendedLetters, offset) {
 
     if (!response.ok) {
       createNotify('err', "Error al cargar la tabla");
+      return;
     }
     
     const result = await response.json();
@@ -334,6 +357,13 @@ function hideModal() {
   document.getElementById("customModal").classList.add("hidden");
 }
 
+let selectedImageId = null;
+
+function selectImage(el, src) {
+  selectedImageId = el.dataset.imageId;
+  setBackgroundImage(src);
+}
+
 function setBackgroundImage(src) {
   const bg = document.getElementById("bg-img");
 
@@ -341,4 +371,92 @@ function setBackgroundImage(src) {
   bg.style.backgroundSize = "cover";
   bg.style.backgroundPosition = "center";
   bg.style.backgroundRepeat = "no-repeat";
+}
+
+async function closeSession() {
+  try {
+    const response = await fetch("/cgi/CloseSessionCGI.cgi", {
+      method: "POST"
+    });
+
+    if (!response.ok) {
+      createNotify('err', "Error al cerrar la sesión.");
+      return;
+    }
+    
+    const result = await response.json()
+
+    if (result.success) {
+      window.location.href = "/cgi/LoginCGI.cgi";
+    } else {
+      createNotify(result.type, result.message || "Error inesperado al cerrar la sesión.");
+    }
+  } catch (err) {
+    createNotify('err', "Hubo un error al cerrar la sesión");
+  }
+}
+
+async function sendOTP(event) {
+  event.preventDefault();
+
+  const form = document.getElementById("otpForm");
+  const formData = new FormData(form);
+
+  try {
+    const response = await fetch("/cgi/AdminOTPLoginCGI.cgi", {
+      method: "POST",
+      body: formData
+    });
+
+    if (!response.ok) {
+      createNotify('err', "Error al intentar validar el OTP.");
+      return;
+    }
+
+    const data = await response.json();
+
+    if (!data.success) {
+      createNotify("warn", data.message);
+      return;
+    }
+
+    createNotify("succ", data.message);
+
+    setTimeout(() => {
+      window.location.href = "/cgi/HomeCGI.cgi";
+    }, 1000);
+
+  } catch (err) {
+    createNotify("err", err.message);
+  }
+}
+
+async function sendLetter(event) {
+  event.preventDefault();
+
+  const formData = new FormData(document.getElementById("letterForm"));
+  formData.append("imageId", selectedImageId);
+  
+  try {
+    const response = await fetch("/cgi/SendLetter.cgi", {
+      method: "POST",
+      body: formData
+    });
+
+    if (!response.ok) {
+      createNotify('err', "Error al intentar validar el OTP.");
+      return;
+    }
+
+    const data = await response.json();
+
+    if (!data.success) {
+      createNotify("warn", data.message);
+      return;
+    }
+
+    createNotify("succ", data.message);
+  } catch (err) {
+    createNotify("err", err.message);
+  }
 }

@@ -23,6 +23,7 @@ public:
   void Execute();
   bool Fetch();
   void Reset();
+  int GetAffectedRows(MYSQL* connection);
 
 private:
   MYSQL_STMT* stmt;

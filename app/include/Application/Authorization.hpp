@@ -4,6 +4,7 @@ class Authorization
 {
  public:
   static bool isAdmin(const UserModel& user);
+  static bool isAdminRolId(const int rolId);
   static bool CanAccessHome(const UserModel& user);
   static bool CanViewLetters(const UserModel& user);
   static bool CanCreateLetter(const UserModel& user);
@@ -12,4 +13,5 @@ class Authorization
   static bool CanDeleteImages(const UserModel& user);
   static bool CanMoveGallery(const UserModel& user);
   static bool CanViewLettersTables(const UserModel& user);
+  static bool CanCloseSession(const UserModel& user);
 };

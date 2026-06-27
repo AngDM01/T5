@@ -17,6 +17,8 @@ class LettersService
   int GetUserReceivedLetterCount(int userId);
   std::list<LetterModel> GetUserReceivedLettersInRange(int userId, int limit, int offset);
   LetterModel GetLetterDetails(int userId, std::string& letterId);
+  bool IsMarkedOpened(std::string& letterId);
+  bool MarkedLetterAsOpened(int userId, std::string& letterId);
 
  private:
   LettersRepository& lettersRepository;

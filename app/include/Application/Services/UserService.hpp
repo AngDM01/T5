@@ -17,6 +17,7 @@ class UserService
   bool RegisterNewUser(RegisterDTO& registerData);
   int GetUserIdByCredentials(LoginDTO& logiData);
   UserModel GetUserById(int userId);
+  int GetUserRol(int userId);
 
  private:
   UserRepository& repository;

@@ -176,3 +176,8 @@ void Statement::Reset()
   intStorage.clear();
   uint8Storage.clear();
 }
+
+int Statement::GetAffectedRows(MYSQL *connection)
+{
+  return mysql_affected_rows(connection);
+}

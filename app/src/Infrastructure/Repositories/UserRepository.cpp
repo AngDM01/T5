@@ -131,3 +131,30 @@ UserModel UserRepository::GetUserDataByUserId(int userId)
     return UserModel(-1);
   }
 }
+
+int UserRepository::GetUserRolByUserId(int userId)
+{
+  try
+  {
+    Statement stmt(db.GetConnection(), getUserRolByUserId);
+
+    stmt.BindInt(userId);
+
+    int rolId = 0;
+
+    stmt.BindResultInt(rolId);
+
+    stmt.Execute();
+    
+    if (!stmt.Fetch()) return 0;
+    
+    stmt.Reset();
+
+    return rolId;
+  }
+  catch(const std::exception& e)
+  {
+    Logger::Error(string("[UserRepository::GetUserRolByUserId]\n") + e.what());
+    return -1;
+  }
+}

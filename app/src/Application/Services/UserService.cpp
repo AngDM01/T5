@@ -109,3 +109,15 @@ UserModel UserService::GetUserById(int userId)
 
   return userData;
 }
+
+int UserService::GetUserRol(int userId)
+{
+  if (!Validator::IsValidUserId(userId))
+  {
+    throw runtime_error("Formato de identificardor de usuario no válido.");
+  }
+
+  int rol = repository.GetUserRolByUserId(userId);
+
+  return rol;
+}

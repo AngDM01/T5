@@ -20,7 +20,7 @@ map<string, string> HomePageView::GetHeaderVariables()
 
   variables["PAGETITLE"] = pageTitle;
 
-  string options = "<a href=\"/cgi/CloseSessionCGI.cgi\" class=\"menu-item\">Cerrar Sesión</a>";
+  string options = "<a href=\"#\" onclick=\"closeSession()\" class=\"menu-item\">Cerrar Sesión</a>";
 
   variables["OPTIONS"] = options;
 
@@ -32,6 +32,7 @@ map<string, string> HomePageView::GetPageVariables()
   map<string, string> variables;
 
   variables["UserName"] = userData.GetName();
+  variables["UserRol"] = userData.GetRolDescription();
   variables["UserAge"] = to_string(static_cast<int>(userData.GetAge()));
   variables["UserEmail"] = userData.GetEmail();
 

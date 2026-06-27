@@ -13,7 +13,7 @@ std::map<std::string, std::string> CreateLetterView::GetHeaderVariables()
 
   variables["PAGETITLE"] = pageTitle;
 
-  string options = "<a href=\"/cgi/CloseSessionCGI.cgi\" class=\"menu-item\">Cerrar Sesión</a>";
+  string options = "<a href=\"#\" onclick=\"closeSession()\" class=\"menu-item\">Cerrar Sesión</a>";
 
   variables["OPTIONS"] = options;
 

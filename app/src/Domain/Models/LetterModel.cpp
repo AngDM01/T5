@@ -4,7 +4,9 @@
 
 using namespace std;
 
-LetterModel::LetterModel(int idLetter, const string &letterTitle, const string &senderName, const string &senderEmail, const string &receiverName, const string &receiverEmail, const string &textLetter, const string &sendDate, int idAssociateImage, int idOwnerUser, int idReceiverUser)
+LetterModel::LetterModel(int idLetter, const string &letterTitle, const string &senderName, const string &senderEmail,
+    const string &receiverName, const string &receiverEmail, const string &textLetter, const string &sendDate, bool opened,
+    int idAssociateImage, int idOwnerUser, int idReceiverUser)
   : idLetter(idLetter),
   letterTitle(letterTitle),
   senderName(senderName),
@@ -13,6 +15,7 @@ LetterModel::LetterModel(int idLetter, const string &letterTitle, const string &
   receiverEmail(receiverEmail),
   textLetter(textLetter),
   sendDate(sendDate),
+  opened(opened),
   idAssociateImage(idAssociateImage),
   idOwnerUser(idOwnerUser),
   idReceiverUser(idReceiverUser)
@@ -57,6 +60,11 @@ const string& LetterModel::GetTextLetter() const
 const string& LetterModel::GetSendDate() const
 {
   return sendDate;
+}
+
+bool LetterModel::GetOpenedStatus() const
+{
+  return opened;
 }
 
 int LetterModel::GetIdAssociateImage() const
@@ -118,6 +126,11 @@ void LetterModel::SetTextLetter(const string& textLetter)
 void LetterModel::SetSendDate(const string& sendDate)
 {
   this->sendDate = sendDate;
+}
+
+void LetterModel::SetOpenedStatus(bool opened)
+{
+  this->opened = opened;
 }
 
 void LetterModel::SetIdAssociateImage(int idAssociateImage)

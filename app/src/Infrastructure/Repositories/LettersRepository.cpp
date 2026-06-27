@@ -126,12 +126,14 @@ list<LetterModel> LettersRepository::GetReceivedLettersBriefByReceiverId(int rec
     char senderName[101]{};
     char senderEmail[256]{};
     char sendedDate[64]{};
+    uint8_t opened = 0;
 
     stmt.BindResultInt(letterId);
     stmt.BindResultString(letterTitle, sizeof(letterTitle));
     stmt.BindResultString(senderName, sizeof(senderName));
     stmt.BindResultString(senderEmail, sizeof(senderEmail));
     stmt.BindResultString(sendedDate, sizeof(sendedDate));
+    stmt.BindResultUInt8(opened);
 
     stmt.Execute();
 
@@ -139,7 +141,7 @@ list<LetterModel> LettersRepository::GetReceivedLettersBriefByReceiverId(int rec
 
     while (stmt.Fetch())
     {
-      sendedLetters.emplace_back(letterId, letterTitle, senderName, senderEmail, "", "", "", sendedDate);
+      sendedLetters.emplace_back(letterId, letterTitle, senderName, senderEmail, "", "", "", sendedDate, opened != 0);
     }
 
     stmt.Reset();
@@ -171,6 +173,7 @@ LetterModel LettersRepository::GetLetterFromUserByLetterId(int userId, int lette
     char receiverEmail[256]{};
     char textLetter[2001]{};
     char sendDate[64]{};
+    uint8_t opened = 0;
     int idAssociateImage = 0;
     int idOwnerUser = 0;
     int idReceiverUser = 0;
@@ -183,6 +186,7 @@ LetterModel LettersRepository::GetLetterFromUserByLetterId(int userId, int lette
     stmt.BindResultString(receiverEmail, sizeof(receiverEmail));
     stmt.BindResultString(textLetter, sizeof(textLetter));
     stmt.BindResultString(sendDate, sizeof(sendDate));
+    stmt.BindResultUInt8(opened);
     stmt.BindResultInt(idAssociateImage);
     stmt.BindResultInt(idOwnerUser);
     stmt.BindResultInt(idReceiverUser);
@@ -194,11 +198,59 @@ LetterModel LettersRepository::GetLetterFromUserByLetterId(int userId, int lette
     stmt.Reset();
 
     return LetterModel(letterId, letterTitle, senderName, senderEmail, receiverName, receiverEmail,
-        textLetter, sendDate, idAssociateImage, idOwnerUser, idReceiverUser);
+        textLetter, sendDate, opened > 0, idAssociateImage, idOwnerUser, idReceiverUser);
   }
   catch(const std::exception& e)
   {
     Logger::Error(string("[LettersRepository::GetLetterFromUserByLetterId]\n") + e.what());
     return LetterModel(-1);
+  }
+}
+
+bool LettersRepository::GetOpenedStatus(int letterIdInt)
+{
+  try
+  {
+    Statement stmt(db.GetConnection(), geteOpenedLetterStatus);
+    
+    stmt.BindInt(letterIdInt);
+
+    uint8_t stat = 0;
+
+    stmt.BindResultUInt8(stat);
+
+    stmt.Execute();
+
+    if (!stmt.Fetch()) return false;
+
+    return stat > 0;
+  }
+  catch(const std::exception& e)
+  {
+    Logger::Error(string("[LettersRepository::GetOpenedStatus]\n") + e.what());
+    return false;
+  }
+}
+
+bool LettersRepository::ChangeLetterOpenedStatus(int receiverId, int letterIdInt, bool status)
+{
+  try
+  {
+    Statement stmt(db.GetConnection(), updateOpenedStatusQuery);
+
+    uint8_t stat = status ? 1 : 0;
+
+    stmt.BindUInt8(stat);
+    stmt.BindInt(letterIdInt);
+    stmt.BindInt(receiverId);
+
+    stmt.Execute();
+
+    return stmt.GetAffectedRows(db.GetConnection()) > 0;
+  }
+  catch(const std::exception& e)
+  {
+    Logger::Error(string("[LettersRepository::ChangeLetterOpenedStatus]\n") + e.what());
+    return false;
   }
 }

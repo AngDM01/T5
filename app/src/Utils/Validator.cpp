@@ -192,3 +192,10 @@ bool Validator::IsValidLetterId(const std::string& letterId)
     return false;
   }
 }
+
+bool Validator::IsValidOTP(const std::string &otp)
+{
+  if (otp.empty() || otp.length() < 12) return false;
+
+  return true;
+}

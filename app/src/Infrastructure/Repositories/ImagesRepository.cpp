@@ -239,7 +239,7 @@ ImagesModel ImagesRepository::GetImageDataByImageId(int imageId)
     stmt.Execute();
 
     if (!stmt.Fetch()) return ImagesModel();
-
+    
     stmt.Reset();
 
     imageBuffer.resize(imageLength);
@@ -253,5 +253,4 @@ ImagesModel ImagesRepository::GetImageDataByImageId(int imageId)
     Logger::Error(string("[ImagesRepository::GetImageDataByImageId]\n") + e.what());
     return ImagesModel(-1);
   }
-  
 }

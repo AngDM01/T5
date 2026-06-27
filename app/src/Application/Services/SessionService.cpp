@@ -37,7 +37,67 @@ string SessionService::CreateNewUserSession(int userId, int expirationTime)
   return sessionId;
 }
 
-int SessionService::GetUserIdBySessionId(std::string sessionId)
+bool SessionService::DeleteUserSession(std::string& sessionId)
+{
+  if(!Validator::IsValidSessionId(sessionId))
+  {
+    throw runtime_error("Formato de identificador de sesión no válido.");
+  }
+
+  bool deletedSession = sessionRepository.DeleteUserSessionBySessionId(sessionId);
+
+  return deletedSession;
+}
+
+std::string SessionService::CreatePendingAdminSession(int userId, int expirationTime)
+{
+  if (!Validator::IsValidUserId(userId))
+  {
+    throw runtime_error("Valor de identificador de usuario no válido.");
+  }
+
+  if (!Validator::IsValidExpiration(expirationTime))
+  {
+    throw runtime_error("Tiempo límite de expiración excedido." + expirationTime);
+  }
+
+  bool pendingSessionCreated = sessionRepository.CreateUserAdminSession(userId, expirationTime);
+
+  if (!pendingSessionCreated)
+  {
+    throw runtime_error("No se pudo crear la sesión");
+  }
+
+  string pendingSessionId = sessionRepository.GetPendingSessionIdByUserId(userId);
+
+  return pendingSessionId;
+}
+
+int SessionService::GetPendingAdminUser(std::string &sessionId)
+{
+  if(!Validator::IsValidSessionId(sessionId))
+  {
+    throw runtime_error("Formato de identificador de sesión no válido.");
+  }
+
+  int adminUserId = sessionRepository.GetPendingAdminUserBySessionId(sessionId);
+
+  return adminUserId;
+}
+
+bool SessionService::DeletePendingAdminSession(int userId)
+{
+  if(!Validator::IsValidUserId(userId))
+  {
+    throw runtime_error("Formato de identificador de usuario no válido.");
+  }
+
+  bool deletedSession = sessionRepository.DeletePendingSessionByUserId(userId);
+
+  return deletedSession;
+}
+
+int SessionService::GetUserIdBySessionId(std::string& sessionId)
 {
   if(!Validator::IsValidSessionId(sessionId))
   {

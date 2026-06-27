@@ -1,0 +1,37 @@
+  <div class="form-div">
+    <form id="otpForm" class="form1" onsubmit="sendOTP(event)">
+      <section>
+        <h2>Segundo factor de autenticación</h2>
+
+        <p>
+          Inserte su llave YubiKey y presiónela para generar el código OTP.
+        </p>
+
+        <fieldset>
+          <div>
+            <label for="otp">Código OTP</label>
+            <input
+                type="password"
+                id="otp"
+                name="otp"
+                maxlength="64"
+                placeholder="Toque la YubiKey"
+                required
+                autofocus>
+          </div>
+        </fieldset>
+      </section>
+
+      <div class="bttn-grp">
+        <button class="custom-bttn" type="submit">
+          Verificar
+        </button>
+
+        <button class="custom-bttn"
+                type="button"
+                onclick="gotToLogin()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>

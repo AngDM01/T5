@@ -52,13 +52,15 @@ CREATE TABLE Letters (
     Receiver_email VARCHAR(255) NOT NULL,
     Text_letter TEXT NOT NULL,
     Send_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    Opened BOOLEAN NOT NULL DEFAULT FALSE,
     Id_associate_image INT,
     Id_owner_user INT NOT NULL,
     Id_receiver_user INT NOT NULL,
 
     CONSTRAINT fk_letter_image
         FOREIGN KEY (Id_associate_image)
-        REFERENCES Images(Id_image),
+        REFERENCES Images(Id_image)
+        ON DELETE SET NULL,
 
     CONSTRAINT fk_letter_sender_user
         FOREIGN KEY (Id_owner_user)
@@ -103,4 +105,20 @@ CREATE TABLE Sessions (
     CONSTRAINT fk_associate_user
         FOREIGN KEY (Id_associate_user)
         REFERENCES Users(Id_user)
+);
+
+CREATE TABLE PendingAdminSessions (
+    Id_session UUID PRIMARY KEY DEFAULT UUID(),
+    Id_associate_user INT NOT NULL,
+    Expiration DATETIME NOT NULL,
+
+    CONSTRAINT fk_pending_user
+        FOREIGN KEY (Id_associate_user)
+        REFERENCES Users(Id_user)
+);
+
+CREATE TABLE UsedOTPs (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Otp VARCHAR(255) NOT NULL UNIQUE,
+    Used_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

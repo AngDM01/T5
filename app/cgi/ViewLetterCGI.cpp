@@ -85,19 +85,33 @@ string ViewLetter(Request& request, UserModel& userData)
 			ImagesRepository imagesRepo(db);
 			ImagesService imagesService(imagesRepo);
 			
+			Logger::Debug("asociateImgId: " + to_string(letter.GetIdAssociateImage()));
+
 			imageData = imagesService.GetImageByImageId(letter.GetIdAssociateImage());
 
 			if (imageData.GetIdImage() == -1)
 			{
 				Logger::Error("[ViewLetterCGI::ViewLetter]\n Ocurrió un error al obtener la imagen de la carta. "
-        		+ string(userData.GetIdUser() + ", " + userData.GetName()));
+        		+ to_string(userData.GetIdUser()) + ", " + userData.GetName());
 				
 				imageData.SetIdImage(0);
 			}
 
 		}
 		
+		Logger::Debug("imgid: " + to_string(imageData.GetIdImage()));
 		letter.SetImage(imageData);
+
+		if (!letterService.IsMarkedOpened(letterId))
+		{
+			bool openedLetter = letterService.MarkedLetterAsOpened(userData.GetIdUser(), letterId);
+			
+			if (!openedLetter)
+			{
+				Logger::Error("[ViewLetterCGI::ViewLetter]\n Ocurrió un error al actualizar el estado de la carta. "
+						+ to_string(userData.GetIdUser()) + ", " + userData.GetName());
+			}
+		}
 
 		return RenderViewLetterPage(letter);
 	}

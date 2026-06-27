@@ -100,3 +100,36 @@ LetterModel LettersService::GetLetterDetails(int userId, string& letterId)
 
   return letter;
 }
+
+bool LettersService::IsMarkedOpened(std::string &letterId)
+{
+  if (!Validator::IsValidLetterId(letterId))
+  {
+    throw runtime_error("Formato del identificador de la carta no válido.");
+  }
+
+  int letterIdInt = std::stoi(letterId);
+
+  bool isOpened = lettersRepository.GetOpenedStatus(letterIdInt);
+
+  return isOpened;
+}
+
+bool LettersService::MarkedLetterAsOpened(int userId, std::string &letterId)
+{
+  if (!Validator::IsValidUserId(userId))
+  {
+    throw runtime_error("Formato de identificardor de usuario no válido.");
+  }
+
+  if (!Validator::IsValidLetterId(letterId))
+  {
+    throw runtime_error("Formato del identificador de la carta no válido.");
+  }
+
+  int letterIdInt = std::stoi(letterId);
+
+  bool markedOpened = lettersRepository.ChangeLetterOpenedStatus(userId, letterIdInt, true);
+
+  return markedOpened;
+}
