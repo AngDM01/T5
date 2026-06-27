@@ -5,6 +5,8 @@
 
 class LetterModel;
 class LettersRepository;
+class SendLetterDTO;
+class UserModel;
 
 class LettersService
 {
@@ -19,7 +21,9 @@ class LettersService
   LetterModel GetLetterDetails(int userId, std::string& letterId);
   bool IsMarkedOpened(std::string& letterId);
   bool MarkedLetterAsOpened(int userId, std::string& letterId);
-
+  bool SaveSendedLetter(SendLetterDTO& letterDTO, UserModel& userData, int receivedUser);
+  void sendEmail(LetterModel& letter);
+  
  private:
   LettersRepository& lettersRepository;
 };

@@ -14,4 +14,5 @@ class Authorization
   static bool CanMoveGallery(const UserModel& user);
   static bool CanViewLettersTables(const UserModel& user);
   static bool CanCloseSession(const UserModel& user);
+  static bool CanSendLetters(const UserModel& user);
 };

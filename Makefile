@@ -9,7 +9,7 @@ SRC_DIR = $(APP_DIR)/src
 CGI_DIR = $(APP_DIR)/cgi
 INCLUDE_DIR = $(APP_DIR)/include
 INCLUDE_DIRS = $(INCLUDE_DIR) $(INCLUDE_DIR)/Application/ $(INCLUDE_DIR)/Domain $(INCLUDE_DIR)/Infrastructure $(INCLUDE_DIR)/Presentation \
-	$(INCLUDE_DIR)/Application/Dtos $(INCLUDE_DIR)/Application/Services \
+	$(INCLUDE_DIR)/Application/Dtos $(INCLUDE_DIR)/Application/Services $(INCLUDE_DIR)/Application/Email $(INCLUDE_DIR)/Application/Email/Interfaces $(INCLUDE_DIR)/Application/Email/Services \
 	$(INCLUDE_DIR)/Domain/Models \
 	$(INCLUDE_DIR)/Infrastructure/Repositories \
 	$(INCLUDE_DIR)/Presentation/Views $(INCLUDE_DIR)/Presentation/Views/Static $(INCLUDE_DIR)/Presentation/Views/Dynamic \
@@ -31,7 +31,7 @@ BIN_DIR = $(APP_DIR)/bin
 CGI_FILES = $(wildcard $(CGI_DIR)/*.cpp)
 
 SRC_SUBDIRS = Application Domain Infrastructure Presentation \
-	Application/Dtos Application/Services \
+	Application/Dtos Application/Services Application/Email Application/Email/Interfaces Application/Email/Services \
 	Domain/Models \
 	Infrastructure/Repositories  \
 	Presentation/Views Presentation/Views/Dynamic Presentation/Views/Static \

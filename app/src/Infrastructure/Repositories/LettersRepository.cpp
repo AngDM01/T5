@@ -254,3 +254,30 @@ bool LettersRepository::ChangeLetterOpenedStatus(int receiverId, int letterIdInt
     return false;
   }
 }
+
+bool LettersRepository::InsertLetter(LetterModel &letter)
+{
+  try
+  {
+    Statement stmt(db.GetConnection(), insertNewLetterQuery);
+
+    stmt.BindString(letter.GetLetterTitle());
+    stmt.BindString(letter.GetSenderName());
+    stmt.BindString(letter.GetSenderEmail());
+    stmt.BindString(letter.GetReceiverName());
+    stmt.BindString(letter.GetReceiverEmail());
+    stmt.BindString(letter.GetTextLetter());
+    stmt.BindInt(letter.GetIdAssociateImage());
+    stmt.BindInt(letter.GetIdOwnerUser());
+    stmt.BindInt(letter.GetIdReceiverUser());
+
+    stmt.Execute();
+
+    return true;
+  }
+  catch(const std::exception& e)
+  {
+    Logger::Error(string("[LettersRepository::InsertLetter]\n") + e.what());
+    return false;
+  }
+}

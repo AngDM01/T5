@@ -18,6 +18,7 @@ class UserService
   int GetUserIdByCredentials(LoginDTO& logiData);
   UserModel GetUserById(int userId);
   int GetUserRol(int userId);
+  int GetUserIdByEmail(std::string email);
 
  private:
   UserRepository& repository;

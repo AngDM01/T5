@@ -43,7 +43,7 @@ bool Validator::IsValidLoginPassword(const std::string &password)
 
 bool Validator::IsValidName(const string& name)
 {
-  if (name.empty() || name.length() > 255) return false;
+  if (name.empty() || name.length() > 100) return false;
 
   for (char c : name)
       if (!isspace(c)) return true;
@@ -198,4 +198,14 @@ bool Validator::IsValidOTP(const std::string &otp)
   if (otp.empty() || otp.length() < 12) return false;
 
   return true;
+}
+
+bool Validator::IsValidTextLetter(const std::string &text)
+{
+  if (text.length() > 2000) return false;
+
+  for (char c : text)
+      if (!isspace(c)) return true;
+
+  return false;
 }

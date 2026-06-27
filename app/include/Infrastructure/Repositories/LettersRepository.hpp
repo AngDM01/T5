@@ -18,6 +18,7 @@ class LettersRepository
 	LetterModel GetLetterFromUserByLetterId(int userId, int letterIdInt);
   bool GetOpenedStatus(int letterIdInt);
   bool ChangeLetterOpenedStatus(int userId, int letterIdInt, bool status);
+  bool InsertLetter(LetterModel& letter);
 
  private:
   DBConnection& db;
@@ -48,4 +49,8 @@ class LettersRepository
       "WHERE Id_letter = ? ";
   const char* geteOpenedLetterStatus = "SELECT Opened FROM Letters WHERE Id_letter = ?";
   const char* updateOpenedStatusQuery = "UPDATE Letters SET Opened = ? WHERE Id_letter = ? AND Id_receiver_user = ?;";
+  const char* insertNewLetterQuery =
+      "INSERT INTO Letters (Letter_title, Sender_name, Sender_email, Receiver_name, Receiver_email, Text_letter, " \
+      "Id_associate_image, Id_owner_user, Id_receiver_user) " \
+      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 };

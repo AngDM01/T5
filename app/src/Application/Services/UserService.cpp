@@ -4,7 +4,6 @@
 #include <stdexcept>
 #include <string>
 
-#include "Logger.hpp"
 #include "LoginDTO.hpp"
 #include "PasswordHasher.hpp"
 #include "RegisterDTO.hpp"
@@ -120,4 +119,16 @@ int UserService::GetUserRol(int userId)
   int rol = repository.GetUserRolByUserId(userId);
 
   return rol;
+}
+
+int UserService::GetUserIdByEmail(std::string email)
+{
+  if (!Validator::IsValidEmail(email))
+  {
+    throw runtime_error("Formato de correo no válido: " + email);
+  }
+
+  int userId = repository.GetUserIdByEmail(email);
+
+  return userId;
 }

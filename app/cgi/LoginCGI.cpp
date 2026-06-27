@@ -77,6 +77,7 @@ string NormalLogin(SessionService& sessionService, int userId)
 {
   string sessionId = sessionService.CreateNewUserSession(userId, SESSIONTIME);
 
+  Logger::Debug("T6");
   if (sessionId.empty() || sessionId == "0")
   {
     Logger::Warning("[LoginCGI::LoadHomePage]\n Error al obtener la sesión.");
@@ -101,6 +102,8 @@ string NormalLogin(SessionService& sessionService, int userId)
       .addBool("requireOTP", false)
       .addString("message", string("Inicio de sesión exitoso."));
 
+  Logger::Debug("T8");
+  cout << "Content-Type: application/json" << "\r\n\r\n";
   return response.toString();
 }
 
@@ -123,15 +126,18 @@ string LoginAttempt(Request& request)
 
   LoginDTO loginData(email, pwd);
 
+  Logger::Debug("T2");
   try
   {
     auto config = EnvLoader::Load("/usr/local/apache2/app/db.env");
     DBConnection db;
     db.Connect(config["DB_HOST"], config["DB_USER"], config["DB_PASS"], config["DB_NAME"], std::stoi(config["DB_PORT"]));
+
     UserRepository userRepo(db);
     UserService userService(userRepo);
+    
     int userId = userService.GetUserIdByCredentials(loginData);
-
+    Logger::Debug("T3");
     if (userId == 0)
     {
       Logger::Info("[LoginCGI::LoadHomePage]\n Credenciales proporcionadas inválidas: "
@@ -159,7 +165,7 @@ string LoginAttempt(Request& request)
     }
 
     int userRol = userService.GetUserRol(userId);
-
+    Logger::Debug("T4");
     if (userRol == 0)
     {
       Logger::Info("[LoginCGI::LoadHomePage]\n No se pudo validar el rol del usuario: "
@@ -192,6 +198,7 @@ string LoginAttempt(Request& request)
     if (Authorization::isAdminRolId(userRol))
       return AdminLogin(sessionService, userId);
 
+    Logger::Debug("T5");
     return NormalLogin(sessionService, userId);
   }
   catch(const std::exception& e)
@@ -202,6 +209,7 @@ string LoginAttempt(Request& request)
     response.addBool("success", false)
         .addString("message", string("Hubo un error al iniciar sesion: ") + e.what());
 
+    cout << "Content-Type: application/json" << "\r\n\r\n";
     return response.toString();
   }
 }
@@ -214,6 +222,7 @@ int main() {
   if (request.GetContentLength() == 0) {
     responseBody = LoadLoginPage();
   } else {
+    Logger::Debug("T1");
     responseBody = LoginAttempt(request);
   }
 

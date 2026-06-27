@@ -437,8 +437,12 @@ async function sendLetter(event) {
   const formData = new FormData(document.getElementById("letterForm"));
   formData.append("imageId", selectedImageId);
   
+  for (const [key, value] of formData.entries()) {
+    console.log(key, value);
+  }
+
   try {
-    const response = await fetch("/cgi/SendLetter.cgi", {
+    const response = await fetch("/cgi/SendLetterCGI.cgi", {
       method: "POST",
       body: formData
     });
